@@ -3,30 +3,17 @@
 --- !u!129 &1
 PlayerSettings:
   m_ObjectHideFlags: 0
-<<<<<<< HEAD
   serializedVersion: 28
-=======
-  serializedVersion: 26
->>>>>>> 7e27ce80bd28a8a257deeee1552940bd75587da7
   productGUID: ac62f54191657f74dbb760853447538d
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
-<<<<<<< HEAD
   defaultScreenOrientation: 3
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: com.cc.Pharos
   productName: Pharos
-=======
-  defaultScreenOrientation: 4
-  targetDevice: 2
-  useOnDemandResources: 0
-  accelerometerFrequency: 60
-  companyName: DefaultCompany
-  productName: My project
->>>>>>> 7e27ce80bd28a8a257deeee1552940bd75587da7
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -111,10 +98,7 @@ PlayerSettings:
   useMacAppStoreValidation: 0
   macAppStoreCategory: public.app-category.games
   gpuSkinning: 1
-<<<<<<< HEAD
   meshDeformation: 2
-=======
->>>>>>> 7e27ce80bd28a8a257deeee1552940bd75587da7
   xboxPIXTextureCapture: 0
   xboxEnableAvatar: 0
   xboxEnableKinect: 0
@@ -156,11 +140,7 @@ PlayerSettings:
   loadStoreDebugModeEnabled: 0
   visionOSBundleVersion: 1.0
   tvOSBundleVersion: 1.0
-<<<<<<< HEAD
   bundleVersion: 1
-=======
-  bundleVersion: 1.0.2
->>>>>>> 7e27ce80bd28a8a257deeee1552940bd75587da7
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -181,13 +161,9 @@ PlayerSettings:
   resetResolutionOnWindowResize: 0
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
-<<<<<<< HEAD
   androidMinAspectRatio: 1
   applicationIdentifier:
     Android: com.pharos.
-=======
-  applicationIdentifier: {}
->>>>>>> 7e27ce80bd28a8a257deeee1552940bd75587da7
   buildNumber:
     Standalone: 0
     VisionOS: 0
@@ -285,12 +261,7 @@ PlayerSettings:
   useCustomGradlePropertiesTemplate: 0
   useCustomGradleSettingsTemplate: 0
   useCustomProguardFile: 0
-<<<<<<< HEAD
   AndroidTargetArchitectures: 3
-=======
-  AndroidTargetArchitectures: 1
-  AndroidTargetDevices: 0
->>>>>>> 7e27ce80bd28a8a257deeee1552940bd75587da7
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
   AndroidKeystoreName: 
@@ -409,69 +380,6 @@ PlayerSettings:
       m_Height: 81
       m_Kind: 2
       m_SubKind: 
-<<<<<<< HEAD
-=======
-    - m_Textures: []
-      m_Width: 192
-      m_Height: 192
-      m_Kind: 1
-      m_SubKind: 
-    - m_Textures: []
-      m_Width: 144
-      m_Height: 144
-      m_Kind: 1
-      m_SubKind: 
-    - m_Textures: []
-      m_Width: 96
-      m_Height: 96
-      m_Kind: 1
-      m_SubKind: 
-    - m_Textures: []
-      m_Width: 72
-      m_Height: 72
-      m_Kind: 1
-      m_SubKind: 
-    - m_Textures: []
-      m_Width: 48
-      m_Height: 48
-      m_Kind: 1
-      m_SubKind: 
-    - m_Textures: []
-      m_Width: 36
-      m_Height: 36
-      m_Kind: 1
-      m_SubKind: 
-    - m_Textures: []
-      m_Width: 192
-      m_Height: 192
-      m_Kind: 0
-      m_SubKind: 
-    - m_Textures: []
-      m_Width: 144
-      m_Height: 144
-      m_Kind: 0
-      m_SubKind: 
-    - m_Textures: []
-      m_Width: 96
-      m_Height: 96
-      m_Kind: 0
-      m_SubKind: 
-    - m_Textures: []
-      m_Width: 72
-      m_Height: 72
-      m_Kind: 0
-      m_SubKind: 
-    - m_Textures: []
-      m_Width: 48
-      m_Height: 48
-      m_Kind: 0
-      m_SubKind: 
-    - m_Textures: []
-      m_Width: 36
-      m_Height: 36
-      m_Kind: 0
-      m_SubKind: 
->>>>>>> 7e27ce80bd28a8a257deeee1552940bd75587da7
   m_BuildTargetBatching:
   - m_BuildTarget: Standalone
     m_StaticBatching: 1
@@ -551,7 +459,6 @@ PlayerSettings:
     iPhone: 1
     tvOS: 1
   m_BuildTargetGroupLightmapEncodingQuality:
-<<<<<<< HEAD
   - serializedVersion: 2
     m_BuildTarget: Android
     m_EncodingQuality: 1
@@ -560,38 +467,17 @@ PlayerSettings:
     m_EncodingQuality: 1
   - serializedVersion: 2
     m_BuildTarget: tvOS
-=======
-  - m_BuildTarget: Android
-    m_EncodingQuality: 1
-  - m_BuildTarget: iPhone
-    m_EncodingQuality: 1
-  - m_BuildTarget: tvOS
-    m_EncodingQuality: 1
-  m_BuildTargetGroupHDRCubemapEncodingQuality:
-  - m_BuildTarget: Android
-    m_EncodingQuality: 1
-  - m_BuildTarget: iPhone
-    m_EncodingQuality: 1
-  - m_BuildTarget: tvOS
->>>>>>> 7e27ce80bd28a8a257deeee1552940bd75587da7
     m_EncodingQuality: 1
   m_BuildTargetGroupLightmapSettings: []
   m_BuildTargetGroupLoadStoreDebugModeSettings: []
   m_BuildTargetNormalMapEncoding: []
   m_BuildTargetDefaultTextureCompressionFormat:
-<<<<<<< HEAD
   - serializedVersion: 3
     m_BuildTarget: Android
     m_Formats: 03000000
   - serializedVersion: 3
     m_BuildTarget: WebGL
     m_Formats: 03000000
-=======
-  - m_BuildTarget: Android
-    m_Format: 3
-  - m_BuildTarget: WebGL
-    m_Format: 3
->>>>>>> 7e27ce80bd28a8a257deeee1552940bd75587da7
   playModeTestRunnerEnabled: 0
   runPlayModeTestAsEditModeTest: 0
   actionOnDotNetUnhandledException: 1
@@ -740,10 +626,7 @@ PlayerSettings:
   switchSocketBufferEfficiency: 4
   switchSocketInitializeEnabled: 1
   switchNetworkInterfaceManagerInitializeEnabled: 1
-<<<<<<< HEAD
   switchDisableHTCSPlayerConnection: 0
-=======
->>>>>>> 7e27ce80bd28a8a257deeee1552940bd75587da7
   switchUseNewStyleFilepaths: 1
   switchUseLegacyFmodPriorities: 0
   switchUseMicroSleepForYield: 1
@@ -862,7 +745,8 @@ PlayerSettings:
   scriptingDefineSymbols: {}
   additionalCompilerArguments: {}
   platformArchitecture: {}
-  scriptingBackend: {}
+  scriptingBackend:
+    Android: 1
   il2cppCompilerConfiguration: {}
   il2cppCodeGeneration: {}
   il2cppStacktraceInformation: {}
