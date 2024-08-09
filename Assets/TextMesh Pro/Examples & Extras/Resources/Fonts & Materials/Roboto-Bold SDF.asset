@@ -117,11 +117,15 @@ MonoBehaviour:
   m_Version: 1.1.0
   m_Material: {fileID: 2164040}
   m_SourceFontFileGUID: 4beb055f07aaff244873dec698d0363e
+<<<<<<< HEAD
+=======
+  m_SourceFontFile_EditorRef: {fileID: 12800000, guid: 4beb055f07aaff244873dec698d0363e,
+    type: 3}
+>>>>>>> 7e27ce80bd28a8a257deeee1552940bd75587da7
   m_SourceFontFile: {fileID: 12800000, guid: 4beb055f07aaff244873dec698d0363e, type: 3}
   m_AtlasPopulationMode: 1
   InternalDynamicOS: 0
   m_FaceInfo:
-    m_FaceIndex: 0
     m_FamilyName: Roboto
     m_StyleName: Bold
     m_PointSize: 90
