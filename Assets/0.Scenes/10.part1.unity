@@ -7019,7 +7019,7 @@ GameObject:
   - component: {fileID: 305704819}
   - component: {fileID: 305704818}
   m_Layer: 0
-  m_Name: NPC2
+  m_Name: NPC1
   m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32206,10 +32206,6 @@ MonoBehaviour:
   - {fileID: -1380461598, guid: a66e3a7a20cddda4ba405278886bfcea, type: 3}
   - {fileID: -2043093518, guid: f96ed04f8dc272748a31b4860faa9f12, type: 3}
   - {fileID: 0}
-  playerSprites:
-  - {fileID: -2043093518, guid: f96ed04f8dc272748a31b4860faa9f12, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!4 &1461716550
 Transform:
   m_ObjectHideFlags: 0
@@ -33692,7 +33688,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1561992937
 RectTransform:
   m_ObjectHideFlags: 0
