@@ -46,49 +46,40 @@ public class DialogueManager : MonoBehaviour
     void InitializeDialogueData()
     {
         talkData.Add(1000, new string[] {
-        "어유, 간만에 산책나왔더니만 계속 날씨가 이모양이네 ...:0",
-        "발전소에서 뭔가 생긴 이후부터 하늘이 기분나쁘게 먹구름만 가득하지 뭐야:1",
-        "그러고 보니 총각, 옛날에 저기서 일한다고 했었던 것 같은데, 뭔지 알어?:2",
-        "아마 발전소 폭발이랑 연관은 없을 거에요.:3",
-        "그래? 그럼 뭐 그렇게 큰 일도 아니구만.:4",
-        "아, 조금있으면 장마철이기도 했구만,:5",
-        "'...상황이 어떻게 되고 있는지는 몰라도 호우로 방사능 물질이 근방에 유출되면 큰일이 날텐데':6"
-    });
+            "어유, 간만에 산책나왔더니만 계속 날씨가 이모양이네 ...:0",
+            "발전소에서 뭔가 생긴 이후부터 하늘이 기분나쁘게 먹구름만 가득하지 뭐야:1",
+            "그러고 보니 총각, 옛날에 저기서 일한다고 했었던 것 같은데, 뭔지 알어?:2",
+            "아마 발전소 폭발이랑 연관은 없을 거에요.:3",
+            "그래? 그럼 뭐 그렇게 큰 일도 아니구만.:4",
+            "아, 조금있으면 장마철이기도 했구만,:5",
+            "'...상황이 어떻게 되고 있는지는 몰라도 호우로 방사능 물질이 근방에 유출되면 큰일이 날텐데':6",
+            ":7" // 공백 대사
+        });
+
         talkData.Add(2000, new string[] {
-        "어서 오세요! 여기에 무엇을 도와드릴까요?:0",
-        "선택지1:1",
-        "선택지2:2",
-        "선택지3:3"
-    });
-        // 선택지 예제 추가
+            "어서 오세요! 여기는 우리 마을의 중요한 곳입니다.:0",
+            "이곳은 예전부터 중요한 자원으로 여겨졌죠.:1",
+            "무엇을 도와드릴까요?:2",
+            "이곳의 자원은 고갈되어 가고 있습니다.:3",
+            "무엇인가 좋은 방안이 있을까요?:4",
+            "저희가 가진 정보로는 도움이 될까요?:5",
+            "기대해 주세요, 좋은 소식이 있을지도 모르죠.:6",
+            ":7" // 공백 대사
+        });
+
         talkData.Add(3000, new string[] {
-        "무언가가 떠오르는군요. 선택지를 선택해주세요.:0",
-        "1번 선택지:1",
-        "2번 선택지:2"
-    });
+            "이곳은 상당히 위험한 곳입니다.:0",
+            "많은 사람들이 이곳을 피하고 있죠.:1",
+            "하지만 이곳에서 해결책을 찾는다면 좋겠군요.:2",
+            ":3" // 공백 대사
+        });
     }
+
     void InitializeNameData()
     {
-        nameData.Add(1000, new string[] {
-        "선캡아줌마&0",
-        "선캡아줌마&1",
-        "선캡아줌마&2",
-        "주인공&3",
-        "선캡아줌마&4",
-        "선캡아줌마&5",
-        "주인공&6"
-    });
-        nameData.Add(2000, new string[] {
-        "NPC&0",
-        "NPC&1",
-        "NPC&2",
-        "NPC&3"
-    });
-        nameData.Add(3000, new string[] {
-        "NPC&0",
-        "NPC&1",
-        "NPC&2"
-    });
+        nameData.Add(1000, new string[] { "선캡아줌마&0", "선캡아줌마&1", "선캡아줌마&2", "주인공&3", "선캡아줌마&4", "선캡아줌마&5", "주인공&6" });
+        nameData.Add(2000, new string[] { "마을 주민&0", "마을 주민&1", "마을 주민&2", "마을 주민&3", "마을 주민&4", "마을 주민&5", "마을 주민&6" });
+        nameData.Add(3000, new string[] { "위험한 사람&0", "위험한 사람&1", "위험한 사람&2" });
     }
 
     void InitializeNpcNameToID()
@@ -125,6 +116,14 @@ public class DialogueManager : MonoBehaviour
         if (currentDialogueIndex < talkData[currentDialogueID].Length)
         {
             string dialogueLine = talkData[currentDialogueID][currentDialogueIndex];
+            if (string.IsNullOrEmpty(dialogueLine))
+            {
+                // 공백 대사 처리
+                currentDialogueIndex++;
+                DisplayCurrentDialogue();
+                return;
+            }
+
             string[] parts = dialogueLine.Split(':');
             dialogueText.text = parts[0];
             int speakerIndex = int.Parse(parts[1]);
@@ -138,7 +137,6 @@ public class DialogueManager : MonoBehaviour
                 speakerNameText.text = "알 수 없는 인물";
             }
 
-            // 스프라이트 설정
             if (speakerIndex >= 0 && speakerIndex < npcSprites.Length)
             {
                 imageComponent.sprite = npcSprites[speakerIndex];
@@ -150,11 +148,12 @@ public class DialogueManager : MonoBehaviour
 
             currentDialogueIndex++;
 
-            // 대화가 끝나면 대화 패널을 숨기고 스프라이트를 초기화합니다.
             if (currentDialogueIndex >= talkData[currentDialogueID].Length)
             {
                 dialoguePanel.SetActive(false);
                 imageComponent.sprite = null;
+                isChoiceActive = false;
+                UpdateChoiceButtons();
             }
         }
         else
@@ -163,8 +162,6 @@ public class DialogueManager : MonoBehaviour
             dialoguePanel.SetActive(false);
             imageComponent.sprite = null;
         }
-
-        UpdateChoiceButtons();
     }
 
     void DisplayNextDialogue()
@@ -177,7 +174,6 @@ public class DialogueManager : MonoBehaviour
 
     void UpdateChoiceButtons()
     {
-        // 선택지 로직 추가
         if (talkData[currentDialogueID].Length > 2)
         {
             isChoiceActive = true;
@@ -185,17 +181,25 @@ public class DialogueManager : MonoBehaviour
             if (talkData[currentDialogueID].Length > 1)
             {
                 choiceButton1.gameObject.SetActive(true);
-                choiceButtonText1.text = talkData[currentDialogueID][1].Split(':')[0];
+                choiceButtonText1.text = "선택지 1"; // 실제 선택지 텍스트로 변경
                 choiceButton1.onClick.RemoveAllListeners();
-                choiceButton1.onClick.AddListener(() => OnChoiceSelected(2001)); // 2001을 실제로는 다음 대사 ID로 대체
+                choiceButton1.onClick.AddListener(() => OnChoiceSelected(2001)); // 실제로는 다음 대사 ID로 대체
+            }
+            else
+            {
+                choiceButton1.gameObject.SetActive(false);
             }
 
             if (talkData[currentDialogueID].Length > 2)
             {
                 choiceButton2.gameObject.SetActive(true);
-                choiceButtonText2.text = talkData[currentDialogueID][2].Split(':')[0];
+                choiceButtonText2.text = "선택지 2"; // 실제 선택지 텍스트로 변경
                 choiceButton2.onClick.RemoveAllListeners();
-                choiceButton2.onClick.AddListener(() => OnChoiceSelected(2002)); // 2002을 실제로는 다음 대사 ID로 대체
+                choiceButton2.onClick.AddListener(() => OnChoiceSelected(2002)); // 실제로는 다음 대사 ID로 대체
+            }
+            else
+            {
+                choiceButton2.gameObject.SetActive(false);
             }
         }
         else
