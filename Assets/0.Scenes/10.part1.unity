@@ -7185,7 +7185,7 @@ Transform:
   m_GameObject: {fileID: 305704817}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5, y: 2, z: 75}
+  m_LocalPosition: {x: 5, y: 2, z: 85}
   m_LocalScale: {x: 6, y: 6, z: 6}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -22346,8 +22346,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32f9946d6dad9424bb9d8270ea019d1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueManager: {fileID: 0}
-  manager: {fileID: 0}
+  talkManager: {fileID: 1461716551}
+  manager: {fileID: 1302391666}
 --- !u!1001 &1079717988
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24051,7 +24051,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1157655229
 RectTransform:
   m_ObjectHideFlags: 0
@@ -24059,14 +24059,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1157655228}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1312943365}
   - {fileID: 378207110}
-  m_Father: {fileID: 1561992937}
+  m_Father: {fileID: 1817750002}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -32401,11 +32401,12 @@ MonoBehaviour:
   choiceButton2Text: {fileID: 474147584}
   talkPanel: {fileID: 1561992936}
   portraitArr:
-  - {fileID: 0}
+  - {fileID: -1693107619, guid: a66e3a7a20cddda4ba405278886bfcea, type: 3}
   - {fileID: -2043093518, guid: f96ed04f8dc272748a31b4860faa9f12, type: 3}
   - {fileID: -1380461598, guid: a66e3a7a20cddda4ba405278886bfcea, type: 3}
   player_portraitArr:
   - {fileID: 0}
+  isTalkFinished: 0
 --- !u!4 &1462136382 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4111116904279595642, guid: 60d65e4eed2ca444d9a5224665294248, type: 3}
@@ -33890,7 +33891,6 @@ RectTransform:
   - {fileID: 525320929}
   - {fileID: 1668753510}
   - {fileID: 223749540}
-  - {fileID: 1157655229}
   m_Father: {fileID: 1817750002}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -39198,6 +39198,7 @@ RectTransform:
   - {fileID: 526324171}
   - {fileID: 650848065}
   - {fileID: 434502741}
+  - {fileID: 1157655229}
   - {fileID: 1561992937}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
