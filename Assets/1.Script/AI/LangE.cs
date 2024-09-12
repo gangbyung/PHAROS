@@ -5,7 +5,7 @@ using UnityEngine;
 public class LangE : MonoBehaviour
 {
     public Transform player;
-    public float aiMoveDistance = 10f; // AI의 한 칸 이동 거리
+    public float aiMoveDistance = 0f; // AI의 한 칸 이동 거리
     public float playerMoveDistance = 5f; // 플레이어의 이동 거리
     public float rayDistance = 10f; // 레이캐스트 거리
     public float safeDistance = 2f; // 벽과의 안전 거리
@@ -18,10 +18,13 @@ public class LangE : MonoBehaviour
     private bool hasMoved = false; // AI가 이동했는지 여부를 추적
     private bool hasRedPotionEffect = false; // 빨간 포션 효과 여부
 
+    Animator animator;
+
     void Start()
     {
         lastPlayerPosition = player.position;
         targetPosition = transform.position; // 초기 목표 위치를 현재 위치로 설정
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -30,49 +33,16 @@ public class LangE : MonoBehaviour
         {
             if (!hasMoved)
             {
-                // AI가 이동할 방향 후보들 (4방향)
-                Vector3[] possibleDirections = {
-                    Vector3.forward,
-                    Vector3.back,
-                    Vector3.left,
-                    Vector3.right
-                };
+                Vector3 bestDirection = GetBestFleeDirection();
 
-                Vector3 bestDirection = Vector3.zero;
-                float maxDistance = float.MinValue;
-
-                // 각 방향으로 레이캐스트를 보냄
-                foreach (Vector3 direction in possibleDirections)
-                {
-                    Vector3 tempTargetPosition = transform.position + direction * (hasRedPotionEffect ? aiMoveDistance / 4f : aiMoveDistance);
-
-                    // 경계 제한 검사
-                    if (Mathf.Abs(tempTargetPosition.x) < boundaryLimit && Mathf.Abs(tempTargetPosition.z) < boundaryLimit)
-                    {
-                        // 벽 감지
-                        if (!Physics.Raycast(transform.position, direction, rayDistance, wallLayer))
-                        {
-                            // 안전 거리 검사
-                            if (IsSafeFromWalls(tempTargetPosition))
-                            {
-                                // 플레이어로부터 가장 먼 방향 선택
-                                float distanceToPlayer = Vector3.Distance(tempTargetPosition, player.position);
-                                if (distanceToPlayer > maxDistance)
-                                {
-                                    maxDistance = distanceToPlayer;
-                                    bestDirection = direction;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                // 가장 먼 방향으로 목표 위치 설정
                 if (bestDirection != Vector3.zero)
                 {
                     targetPosition = transform.position + bestDirection * (hasRedPotionEffect ? aiMoveDistance / 4f : aiMoveDistance);
                     lastPlayerPosition = player.position;
                     hasMoved = true;
+
+                    // 이동 방향에 따른 회전 설정
+                    SetRotationForDirection(bestDirection);
                 }
             }
 
@@ -85,6 +55,62 @@ public class LangE : MonoBehaviour
                 hasMoved = false;
             }
         }
+
+        // AI가 이동 중인지 감지하는 if 문
+        if (hasMoved)
+        {
+            // AI가 이동 중일 때 수행할 작업
+            animator.SetBool("isRun",true);
+            animator.SetBool("isIdle",false);
+        }
+        if(!hasMoved)
+        {
+            animator.SetBool("isRun", false);
+            animator.SetBool("isIdle", true);
+        }
+    }
+
+    Vector3 GetBestFleeDirection()
+    {
+        // AI가 이동할 방향 후보들 (4방향)
+        Vector3[] possibleDirections = {
+            Vector3.forward,
+            Vector3.back,
+            Vector3.left,
+            Vector3.right
+        };
+
+        Vector3 bestDirection = Vector3.zero;
+        float maxDistance = float.MinValue;
+
+        // 각 방향으로 레이캐스트를 보냄
+        foreach (Vector3 direction in possibleDirections)
+        {
+            Vector3 tempTargetPosition = transform.position + direction * (hasRedPotionEffect ? aiMoveDistance / 4f : aiMoveDistance);
+
+            // 경계 제한 검사
+            if (Mathf.Abs(tempTargetPosition.x) < boundaryLimit && Mathf.Abs(tempTargetPosition.z) < boundaryLimit)
+            {
+                // 벽 감지
+                if (!Physics.Raycast(transform.position, direction, rayDistance, wallLayer))
+                {
+                    // 안전 거리 검사
+                    if (IsSafeFromWalls(tempTargetPosition))
+                    {
+                        // 플레이어로부터 가장 먼 방향 선택
+                        float distanceToPlayer = Vector3.Distance(tempTargetPosition, player.position);
+                        if (distanceToPlayer > maxDistance)
+                        {
+                            maxDistance = distanceToPlayer;
+                            bestDirection = direction;
+                            
+                        }
+                    }
+                }
+            }
+        }
+
+        return bestDirection;
     }
 
     bool IsSafeFromWalls(Vector3 position)
@@ -97,6 +123,26 @@ public class LangE : MonoBehaviour
             return false;
         }
         return true;
+    }
+
+    void SetRotationForDirection(Vector3 direction)
+    {
+        if (direction == Vector3.forward)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0); // +Z 방향일 때 Y 회전 0도
+        }
+        else if (direction == Vector3.back)
+        {
+            transform.rotation = Quaternion.Euler(0, 180, 0); // -Z 방향일 때 Y 회전 180도
+        }
+        else if (direction == Vector3.left)
+        {
+            transform.rotation = Quaternion.Euler(0, -90, 0); // -X 방향일 때 Y 회전 90도
+        }
+        else if (direction == Vector3.right)
+        {
+            transform.rotation = Quaternion.Euler(0, 90, 0); // +X 방향일 때 Y 회전 -90도
+        }
     }
 
     public void SetRedPotionEffect(bool isActive)

@@ -1,27 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    TalkManager talkManager;
+    public TalkManager talkManager;
     public GameObject talkPanel;
-    public Image portraiImg;
-    public Text talkText;
-    public Text NameText;
+    public Image portraitImg;
+    public Text talkTextUI;
+    public Text nameTextUI;
     public GameObject scanObject;
     public bool isAction;
     public int talkIndex;
-    public int NameIndex;
-
-    public GameObject TalkManager;
+    public int nameIndex;
 
     private static GameManager _instance;
     private static readonly object _lock = new object();
 
-    public static GameManager Instance //싱글톤 패턴
+    public static GameManager Instance // 싱글톤 패턴
     {
         get
         {
@@ -35,7 +32,7 @@ public class GameManager : MonoBehaviour
 
                         if (_instance == null)
                         {
-                            
+                            Debug.LogError("GameManager 인스턴스를 찾을 수 없습니다.");
                         }
                         else
                         {
@@ -47,35 +44,38 @@ public class GameManager : MonoBehaviour
             return _instance;
         }
     }
+
     void Awake()
     {
         if (_instance == null)
         {
             _instance = this;
             DontDestroyOnLoad(this.gameObject);
-
         }
         else if (_instance != this)
         {
             Destroy(gameObject);
         }
     }
+
     void Start()
     {
-        if(talkManager == null)
+        if (talkManager == null)
         {
             talkManager = FindObjectOfType<TalkManager>();
         }
+
         if (talkManager == null)
         {
             Debug.LogError("TalkManager가 설정되지 않았습니다. TalkManager가 있는지 확인하세요.");
         }
     }
+
     public void Action(GameObject scanObj) // 오브젝트 스캔
     {
         if (scanObj == null)
         {
-            Debug.LogError("scanObj is null!");
+            Debug.LogError("scanObj가 null입니다!");
             return;
         }
 
@@ -84,73 +84,90 @@ public class GameManager : MonoBehaviour
 
         if (objData == null)
         {
-            Debug.LogError("ObjectData component is missing on the scanned object!");
+            Debug.LogError("스캔된 오브젝트에 ObjectData 컴포넌트가 없습니다!");
+            return;
+        }
+
+        talkIndex = 0; // 대화 시작 시 인덱스 초기화
+        nameIndex = 0;
+        Talk(objData.id, objData.isNpc);
+        talkPanel.SetActive(isAction);
+    }
+
+    public void NextTalk()
+    {
+        if (scanObject == null) return;
+
+        ObjectData objData = scanObject.GetComponent<ObjectData>();
+
+        if (objData == null)
+        {
+            Debug.LogError("스캔된 오브젝트에 ObjectData 컴포넌트가 없습니다!");
             return;
         }
 
         Talk(objData.id, objData.isNpc);
-        talkPanel.SetActive(isAction);
     }
-    public void NextTalk()
-    {
-        ObjectData objData = scanObject.GetComponent<ObjectData>();
 
-        Talk(objData.id, objData.isNpc);
-        talkPanel.SetActive(isAction);
-    }
     public void EndTalk()
     {
-        ObjectData objData = scanObject.GetComponent<ObjectData>();
-
-        Talk(objData.id, objData.isNpc);
-        
         isAction = false;
         talkIndex = 0;
-        NameIndex = 0;
-        talkPanel.SetActive(isAction);
+        nameIndex = 0;
+        talkPanel.SetActive(false);
+
+        // NPC 오브젝트 삭제
+        if (scanObject != null)
+        {
+            Destroy(scanObject);
+            scanObject = null;
+        }
     }
 
-    public void Talk(int id, bool isNpc) //대사 내보내기
+    public void Talk(int id, bool isNpc) // 대사 내보내기
     {
-        if (talkManager != null)
-        {
-            // talkManager 인스턴스가 null이 아니면, 해당 메서드를 호출합니다.
-            string talkText = talkManager.GetTalk(id, 0);
-
-        }
-        else
+        if (talkManager == null)
         {
             Debug.LogError("TalkManager 인스턴스가 null입니다.");
+            return;
         }
 
         string talkData = talkManager.GetTalk(id, talkIndex);
+        string nameData = talkManager.GetName(id, nameIndex);
 
-        string NameData = talkManager.GetName(id, NameIndex);
-
-        if (talkData == null)
+        if (talkData == null) // 더 이상 대사가 없을 때
         {
-            isAction = false;
-            talkIndex = 0;
-            NameIndex = 0;
+            EndTalk(); // 대화 종료 처리
             return;
         }
+
         if (isNpc)
         {
-            talkText.text = talkData.Split(':')[0];
-            NameText.text = NameData.Split('&')[0];
+            talkTextUI.text = talkData.Split(':')[0];
+            nameTextUI.text = nameData.Split('&')[0];
 
-            portraiImg.sprite = talkManager.GetPortrait(id, int.Parse(talkData.Split(':')[1]));
-            portraiImg.color = new Color(1, 1, 1, 1);
+            int portraitIndex;
+            if (int.TryParse(talkData.Split(':')[1], out portraitIndex))
+            {
+                portraitImg.sprite = talkManager.GetPortrait(id, portraitIndex);
+                portraitImg.color = new Color(1, 1, 1, 1);
+            }
+            else
+            {
+                Debug.LogWarning("초상화 인덱스를 변환할 수 없습니다.");
+            }
         }
         else
         {
-            talkText.text = talkData;
-            NameText.text = NameData;
+            talkTextUI.text = talkData;
+            nameTextUI.text = nameData;
 
-            portraiImg.color = new Color(1, 1, 1, 0);
+            portraitImg.color = new Color(1, 1, 1, 0);
         }
+
+        talkIndex++; // 다음 대사를 위해 인덱스를 증가시킴
+        nameIndex++;
+
         isAction = true;
-        talkIndex++;
-        NameIndex++;
     }
 }

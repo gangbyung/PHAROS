@@ -23,127 +23,43 @@ public class TalkManager : MonoBehaviour
     public Sprite[] portraitArr;
     public Sprite[] player_portraitArr;
 
-    public bool isTalkFinished = false;
-    private GameObject currentNpc;
-    private bool waitingForFinalInput = false;
 
     public static TalkManager Instance { get; private set; }
 
     void Awake()
     {
-        // 딕셔너리 초기화
-        talkData = new Dictionary<int, string[]>();
-        NameData = new Dictionary<int, string[]>();
-        portraitData = new Dictionary<int, Sprite>();
-
-        GenerateData();
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            talkData = new Dictionary<int, string[]>();
+            NameData = new Dictionary<int, string[]>();
+            portraitData = new Dictionary<int, Sprite>();
+            GenerateData();
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
-
     void GenerateData()
     {
         talkData.Add(1000, new string[]
         {
-        "대사1:0",
-        "대사2:1",
-        "선택지1:2"
+            "대사1:0",
+            "대사2:1"
         });
-        NameData.Add(1000, new string[] { "이름1&0", "이름2&1" ,"&2"});
+        NameData.Add(1000, new string[] { "이름1&0", "이름2&1"});
 
-        if (portraitArr.Length > 1)
-        {
-            // portraitData에 키를 올바르게 추가
-            portraitData.Add(1000 + 0, portraitArr[1]); // 1000
-            portraitData.Add(1000 + 1, portraitArr[1]); // 1001
-            portraitData.Add(1000 + 2, portraitArr[1]); // 1002
-                                                        // 필요한 경우 다른 키와 값을 추가합니다.
-                                                        // 예: portraitData.Add(1000 + 2, portraitArr[1]); // 1002
-        }
-        else
-        {
-            Debug.LogWarning("portraitArr에 충분한 요소가 없습니다.");
-        }
-    }
 
-    public Sprite GetPortrait(int id, int portraitIndex)
-    {
-        int key = id + portraitIndex;
-
-        // Debug.Log를 사용하여 현재 딕셔너리 상태와 key를 확인
-        Debug.Log($"Trying to get portrait with key: {key}");
-
-        if (portraitData != null && portraitData.ContainsKey(key))
-        {
-            Sprite portrait = portraitData[key];
-
-            if (id == 1000 && portraitIndex == 2)
-            {
-                ShowChoiceUI("따라간다", "집으로 돌아간다", (choice) =>
-                {
-                    
-                    if (choice == 1)
-                    {
-                        // 선택 1 로직
-                    }
-                    else if (choice == 2)
-                    {
-                        // 선택 2 로직
-                    }
-                });
-            }
-            return portrait;
-        }
-        else
-        {
-            Debug.LogWarning($"키 '{key}'가 portraitData에 존재하지 않습니다.");
-            return null;
-        }
-    }
-
-    public void NextTalk(GameObject npc)
-    {
-        if (waitingForFinalInput)
-        {
-            EndTalk(npc);
-            waitingForFinalInput = false; // 상태 초기화
-        }
-        else
-        {
-            // 대화가 끝났다고 가정할 때
-            if (!isTalkFinished)
-            {
-                isTalkFinished = true;
-                currentNpc = npc; // 현재 대화 중인 NPC 저장
-                Debug.Log("대화가 끝났습니다. 한 번 더 눌러주세요.");
-                waitingForFinalInput = true; // 최종 입력 대기 상태로 변경
-            }
-        }
-    }
-
-    public void EndTalk(GameObject npc)
-    {
-        if (npc != null)
-        {
-            Destroy(npc);
-            GameManager.Instance.NextTalk();
-            Debug.Log("NPC 오브젝트가 삭제되었습니다.");
-        }
-        ResetTalk();
-    }
-
-    public bool IsTalkFinished()
-    {
-        return isTalkFinished;
-    }
-
-    public void ResetTalk()
-    {
-        isTalkFinished = false;
-        waitingForFinalInput = false; // 상태 초기화
+        portraitData.Add(1000 + 0, portraitArr[1]); // 1000
+        portraitData.Add(1000 + 1, portraitArr[1]); // 1001
     }
 
     public string GetTalk(int id, int talkIndex)
     {
-        if (talkData != null && talkData.ContainsKey(id))
+        // 키가 존재하는지 확인
+        if (talkData.ContainsKey(id))
         {
             if (talkIndex < talkData[id].Length)
             {
@@ -151,20 +67,21 @@ public class TalkManager : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning($"키 '{id}'에 대한 유효하지 않은 대화 인덱스: {talkIndex}");
+                Debug.LogWarning("{id} {talkIndex}");
                 return null;
             }
         }
         else
         {
-            Debug.LogWarning($"키 '{id}'가 talkData에 존재하지 않습니다.");
+            Debug.LogWarning("'{id}'talkData에 존재하지 않음");
             return null;
         }
     }
 
     public string GetName(int id, int NameIndex)
     {
-        if (NameData != null && NameData.ContainsKey(id))
+        // 키가 존재하는지 확인
+        if (NameData.ContainsKey(id))
         {
             if (NameIndex < NameData[id].Length)
             {
@@ -173,6 +90,7 @@ public class TalkManager : MonoBehaviour
             else
             {
                 Debug.LogWarning($"키 '{id}'에 대한 유효하지 않은 이름 인덱스: {NameIndex}");
+                talkPanel.SetActive(false);
                 return null;
             }
         }
@@ -183,6 +101,47 @@ public class TalkManager : MonoBehaviour
         }
     }
 
+    public Sprite GetPortrait(int id, int portraitIndex)
+    {
+        int key = id + portraitIndex;
+
+        // 키가 존재하는지 확인
+        if (portraitData.ContainsKey(key))
+        {
+            Sprite portrait = portraitData[key];
+
+            
+            if (id == 1000 && portraitIndex == 1)
+            {
+                
+                ShowChoiceUI("따라간다", "집으로 돌아간다", (choice) =>
+                {
+                    if (choice == 1)
+                    {
+                        if (talkPanel.activeSelf)
+                        {
+                            GameManager.Instance.NextTalk();
+                        }
+                    }
+                    else if (choice == 2)
+                    {
+                        
+                    }
+                });
+            
+            
+            }
+
+            return portrait; // 값을 반환
+        }
+        else
+        {
+            Debug.LogWarning($"키 '{key}'가 portraitData에 존재하지 않습니다.");
+            return null;
+        }
+    }
+
+    // 선택 UI를 보이게 하고, 버튼에 텍스트와 콜백을 설정
     void ShowChoiceUI(string choice1Text, string choice2Text, Action<int> callback)
     {
         if (choiceUI != null)
