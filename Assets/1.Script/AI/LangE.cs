@@ -5,7 +5,7 @@ using UnityEngine;
 public class LangE : MonoBehaviour
 {
     public Transform player;
-    public float aiMoveDistance = 0f; // AI의 한 칸 이동 거리
+    public float aiMoveDistance = 10f; // AI의 한 칸 이동 거리
     public float playerMoveDistance = 5f; // 플레이어의 이동 거리
     public float rayDistance = 10f; // 레이캐스트 거리
     public float safeDistance = 2f; // 벽과의 안전 거리
@@ -17,21 +17,22 @@ public class LangE : MonoBehaviour
     private Vector3 targetPosition;
     private bool hasMoved = false; // AI가 이동했는지 여부를 추적
     private bool hasRedPotionEffect = false; // 빨간 포션 효과 여부
-
-    Animator animator;
+    private bool isIdle = true; // AI의 대기 상태를 추적
+    private Animator animator;
 
     void Start()
     {
         lastPlayerPosition = player.position;
         targetPosition = transform.position; // 초기 목표 위치를 현재 위치로 설정
-        animator = GetComponent<Animator>();
+        animator = GetComponent<Animator>(); // 애니메이터 컴포넌트 가져오기
     }
 
     void Update()
     {
+        // AI가 이동 중인지 여부를 체크
         if (Vector3.Distance(player.position, lastPlayerPosition) >= playerMoveDistance)
         {
-            if (!hasMoved)
+            if (isIdle)
             {
                 Vector3 bestDirection = GetBestFleeDirection();
 
@@ -40,6 +41,7 @@ public class LangE : MonoBehaviour
                     targetPosition = transform.position + bestDirection * (hasRedPotionEffect ? aiMoveDistance / 4f : aiMoveDistance);
                     lastPlayerPosition = player.position;
                     hasMoved = true;
+                    isIdle = false; // 이동 상태로 변경
 
                     // 이동 방향에 따른 회전 설정
                     SetRotationForDirection(bestDirection);
@@ -53,21 +55,13 @@ public class LangE : MonoBehaviour
             if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
             {
                 hasMoved = false;
+                isIdle = true; // 대기 상태로 변경
             }
         }
 
-        // AI가 이동 중인지 감지하는 if 문
-        if (hasMoved)
-        {
-            // AI가 이동 중일 때 수행할 작업
-            animator.SetBool("isRun",true);
-            animator.SetBool("isIdle",false);
-        }
-        if(!hasMoved)
-        {
-            animator.SetBool("isRun", false);
-            animator.SetBool("isIdle", true);
-        }
+        // AI가 이동 중일 때와 대기 중일 때의 상태를 애니메이션으로 설정
+        animator.SetBool("isIdle", isIdle);
+        animator.SetBool("isRun", !isIdle);
     }
 
     Vector3 GetBestFleeDirection()
@@ -83,8 +77,22 @@ public class LangE : MonoBehaviour
         Vector3 bestDirection = Vector3.zero;
         float maxDistance = float.MinValue;
 
+        // 플레이어가 감지된 방향을 제외하기 위한 리스트
+        List<Vector3> validDirections = new List<Vector3>(possibleDirections);
+
         // 각 방향으로 레이캐스트를 보냄
         foreach (Vector3 direction in possibleDirections)
+        {
+            // 플레이어 감지 레이캐스트
+            if (Physics.Raycast(transform.position, direction, rayDistance, LayerMask.GetMask("Player")))
+            {
+                // 플레이어가 감지된 방향은 제외
+                validDirections.Remove(direction);
+            }
+        }
+
+        // 유효한 방향에 대해 다시 검토
+        foreach (Vector3 direction in validDirections)
         {
             Vector3 tempTargetPosition = transform.position + direction * (hasRedPotionEffect ? aiMoveDistance / 4f : aiMoveDistance);
 
@@ -103,7 +111,6 @@ public class LangE : MonoBehaviour
                         {
                             maxDistance = distanceToPlayer;
                             bestDirection = direction;
-                            
                         }
                     }
                 }
