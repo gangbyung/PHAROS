@@ -45,14 +45,16 @@ public class TalkManager : MonoBehaviour
         {
         "대사1:0",
         "대사2:1",
+        "선택지1:2"
         });
-        NameData.Add(1000, new string[] { "이름1&0", "이름2&1" });
+        NameData.Add(1000, new string[] { "이름1&0", "이름2&1" ,"&2"});
 
         if (portraitArr.Length > 1)
         {
             // portraitData에 키를 올바르게 추가
             portraitData.Add(1000 + 0, portraitArr[1]); // 1000
             portraitData.Add(1000 + 1, portraitArr[1]); // 1001
+            portraitData.Add(1000 + 2, portraitArr[1]); // 1002
                                                         // 필요한 경우 다른 키와 값을 추가합니다.
                                                         // 예: portraitData.Add(1000 + 2, portraitArr[1]); // 1002
         }
@@ -73,14 +75,11 @@ public class TalkManager : MonoBehaviour
         {
             Sprite portrait = portraitData[key];
 
-            if (id == 4000 && portraitIndex == 7)
-            {
-                // NPC 활성화 함수
-            }
-            else if (id == 5000 && portraitIndex == 7)
+            if (id == 1000 && portraitIndex == 2)
             {
                 ShowChoiceUI("따라간다", "집으로 돌아간다", (choice) =>
                 {
+                    
                     if (choice == 1)
                     {
                         // 선택 1 로직

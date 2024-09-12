@@ -98,6 +98,17 @@ public class GameManager : MonoBehaviour
         Talk(objData.id, objData.isNpc);
         talkPanel.SetActive(isAction);
     }
+    public void EndTalk()
+    {
+        ObjectData objData = scanObject.GetComponent<ObjectData>();
+
+        Talk(objData.id, objData.isNpc);
+        
+        isAction = false;
+        talkIndex = 0;
+        NameIndex = 0;
+        talkPanel.SetActive(isAction);
+    }
 
     public void Talk(int id, bool isNpc) //대사 내보내기
     {
