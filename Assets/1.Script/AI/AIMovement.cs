@@ -2,138 +2,77 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AIMovement : MonoBehaviour
+public class SimpleAIMovement : MonoBehaviour
 {
-    public Transform player;
-    public float aiMoveDistance = 10f; // AI의 한 칸 이동 거리
-    public float playerMoveDistance = 5f; // 플레이어의 이동 거리
-    public float rayDistance = 10f; // 레이캐스트 거리
-    public float boundaryLimit = 100f; // 경계 제한
-    public LayerMask wallLayer;
+    public Transform player; // 플레이어의 위치
+    public float moveDistance = 10f; // AI의 이동 거리
     public float moveSpeed = 5f; // AI의 이동 속도
-
-    private Vector3 lastPlayerPosition;
-    private Vector3 targetPosition;
-    private bool hasMoved = false;
-    private bool hasRedPotionEffect = false;
-    private bool isIdle = true;
-    private Animator avatarAnimator;
+    public float boundaryLimit = 100f; // 경계 제한
+    public LayerMask wallLayer; // 벽이 있는 레이어
+    private Vector3 targetPosition; // AI가 이동할 목표 위치
+    private bool isMoving = false; // AI가 이동 중인지 여부
+    private Animator animator; // 애니메이션 컨트롤러
 
     void Start()
     {
-        lastPlayerPosition = player.position;
-        targetPosition = transform.position; // 초기 목표 위치를 현재 위치로 설정
-        avatarAnimator = GetComponentInChildren<Animator>();
-        if (avatarAnimator == null)
-        {
-            Debug.LogError("Avatar Animator is not assigned and could not be found in children!");
-        }
+        targetPosition = transform.position; // 처음에는 현재 위치를 목표로 설정
+        animator = GetComponentInChildren<Animator>(); // AI의 애니메이션 컴포넌트 가져오기
     }
 
     void Update()
     {
-        if (Vector3.Distance(player.position, lastPlayerPosition) >= playerMoveDistance)
+        // 플레이어가 일정 거리 이상 이동했을 때 AI가 움직임
+        if (Vector3.Distance(player.position, transform.position) >= moveDistance && !isMoving)
         {
-            if (isIdle)
+            Vector3 moveDirection = GetMoveDirection(); // 이동할 방향 계산
+            if (moveDirection != Vector3.zero)
             {
-                Vector3 bestDirection = GetBestFleeDirection();
-                if (bestDirection != Vector3.zero)
-                {
-                    targetPosition = transform.position + bestDirection * (hasRedPotionEffect ? aiMoveDistance / 4f : aiMoveDistance);
-                    lastPlayerPosition = player.position;
-                    hasMoved = true;
-                    isIdle = false;
-
-                    // Set rotation in a different class
-                    // Assumes there is a component named AI_Rotation attached to the child object
-                    var rotationComponent = GetComponentInChildren<AI_Rotation>();
-                    if (rotationComponent != null)
-                    {
-                        rotationComponent.SetRotationForDirection(bestDirection);
-                    }
-                }
-            }
-
-            if (hasMoved)
-            {
-                transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
-                if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
-                {
-                    hasMoved = false;
-                    isIdle = true;
-                }
+                targetPosition = transform.position + moveDirection * moveDistance;
+                isMoving = true;
+                animator.SetBool("isRun", true); // 달리는 애니메이션 실행
             }
         }
 
-        avatarAnimator.SetBool("isIdle", isIdle);
-        avatarAnimator.SetBool("isRun", !isIdle);
-    }
-
-    Vector3 GetBestFleeDirection()
-    {
-        Vector3[] possibleDirections = {
-            transform.TransformDirection(Vector3.forward),
-            transform.TransformDirection(Vector3.back),
-            transform.TransformDirection(Vector3.left),
-            transform.TransformDirection(Vector3.right)
-        };
-
-        Vector3 bestDirection = Vector3.zero;
-        float maxDistance = float.MinValue;
-
-        List<Vector3> validDirections = new List<Vector3>(possibleDirections);
-
-        foreach (Vector3 direction in possibleDirections)
+        // AI가 목표 위치로 이동
+        if (isMoving)
         {
-            if (Physics.Raycast(transform.position, direction, rayDistance, LayerMask.GetMask("Player")))
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+            if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
             {
-                validDirections.Remove(direction);
+                isMoving = false;
+                animator.SetBool("isRun", false); // 이동이 끝나면 멈추는 애니메이션 실행
             }
         }
+    }
 
-        foreach (Vector3 direction in validDirections)
+    // AI가 벽에 부딪히지 않고 움직일 수 있는 방향 계산
+    Vector3 GetMoveDirection()
+    {
+        Vector3[] directions = { Vector3.forward, Vector3.back, Vector3.left, Vector3.right };
+        foreach (Vector3 direction in directions)
         {
-            Vector3 tempTargetPosition = transform.position + direction * (hasRedPotionEffect ? aiMoveDistance / 4f : aiMoveDistance);
-
-            if (Mathf.Abs(tempTargetPosition.x) < boundaryLimit && Mathf.Abs(tempTargetPosition.z) < boundaryLimit)
+            Vector3 newPosition = transform.position + direction * moveDistance;
+            if (IsValidPosition(newPosition)) // 벽과 충돌하지 않는 위치일 때 이동 방향 설정
             {
-                if (!Physics.Raycast(transform.position, direction, rayDistance, wallLayer))
-                {
-                    if (IsSafeFromWalls(tempTargetPosition))
-                    {
-                        float distanceToPlayer = Vector3.Distance(tempTargetPosition, player.position);
-                        if (distanceToPlayer > maxDistance)
-                        {
-                            maxDistance = distanceToPlayer;
-                            bestDirection = direction;
-                        }
-                    }
-                }
+                return direction;
             }
         }
-
-        return bestDirection;
+        return Vector3.zero; // 이동할 수 없는 경우
     }
 
-    bool IsSafeFromWalls(Vector3 position)
+    // AI가 벽에 부딪히지 않는지 확인
+    bool IsValidPosition(Vector3 position)
     {
-        return !(Physics.Raycast(position, transform.TransformDirection(Vector3.forward), safeDistance, wallLayer) ||
-                 Physics.Raycast(position, transform.TransformDirection(Vector3.back), safeDistance, wallLayer) ||
-                 Physics.Raycast(position, transform.TransformDirection(Vector3.left), safeDistance, wallLayer) ||
-                 Physics.Raycast(position, transform.TransformDirection(Vector3.right), safeDistance, wallLayer));
-    }
+        if (Mathf.Abs(position.x) > boundaryLimit || Mathf.Abs(position.z) > boundaryLimit)
+        {
+            return false; // 경계 밖이면 이동 불가
+        }
 
-    public void SetRedPotionEffect(bool isActive)
-    {
-        hasRedPotionEffect = isActive;
-    }
+        if (Physics.Raycast(transform.position, position - transform.position, moveDistance, wallLayer))
+        {
+            return false; // 벽이 있으면 이동 불가
+        }
 
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * rayDistance);
-        Gizmos.DrawRay(transform.position, transform.TransformDirection(Vector3.back) * rayDistance);
-        Gizmos.DrawRay(transform.position, transform.TransformDirection(Vector3.left) * rayDistance);
-        Gizmos.DrawRay(transform.position, transform.TransformDirection(Vector3.right) * rayDistance);
+        return true; // 이동 가능
     }
 }

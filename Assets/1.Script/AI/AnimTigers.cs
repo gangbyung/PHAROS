@@ -6,7 +6,7 @@ public class AnimTigers : MonoBehaviour
     public Animator animator;
     void Start()
     {
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
     }
     public void IdelAnim()
     {
