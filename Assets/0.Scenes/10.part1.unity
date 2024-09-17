@@ -39287,7 +39287,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1077444980}
   aiMoveDistance: 10
-  playerMoveDistance: 5
+  playerMoveDistance: 6
   rayDistance: 10
   boundaryLimit: 100
   wallLayer:
