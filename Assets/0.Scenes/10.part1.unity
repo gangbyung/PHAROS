@@ -39267,7 +39267,7 @@ GameObject:
   - component: {fileID: 1818020630}
   - component: {fileID: 1818020629}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: AI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39287,7 +39287,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1077444980}
   aiMoveDistance: 10
-  playerMoveDistance: 6
+  playerMoveDistance: 5
   rayDistance: 10
   boundaryLimit: 100
   wallLayer:
