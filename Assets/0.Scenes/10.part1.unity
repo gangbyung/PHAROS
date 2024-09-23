@@ -14119,7 +14119,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &254850777
 Transform:
   m_ObjectHideFlags: 0
@@ -79986,7 +79986,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 782195468616207033, guid: b924dce73e13fbd46b06d493f10d4ad7, type: 3}
-  filePath: C:\Unity_Study\PHAROS\Assets\9.CsvFile\Map.csv
+  filePath: C:\Users\USER\Documents\GitHub\PHAROS\Assets\9.CsvFile\Map.csv
   startX: 5
   startZ: -5
   yPosition: 5
