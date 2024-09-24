@@ -10,7 +10,7 @@ public class AnimTigers : MonoBehaviour
     }
     public void IdelAnim()
     {
-        animator.SetTrigger("Idle");
+        animator.SetTrigger("Idle2");
     }
 
 }

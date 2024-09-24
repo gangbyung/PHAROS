@@ -42,26 +42,29 @@ public class AI_Rotation : MonoBehaviour
     }
     IEnumerator Animcor()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.5f);
         avatarAnimator.SetTrigger("Idle");  // Idle 상태를 기본으로 유지
-        
+        yield return null;
     }
     IEnumerator AnimcorLeft()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.3f);
         avatarAnimator.SetTrigger("Turn90 Left");  // Idle 상태를 기본으로 유지
+        yield return null;
 
     }
     IEnumerator AnimcorRight()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.3f);
         avatarAnimator.SetTrigger("Turn90 Right");  // Idle 상태를 기본으로 유지
+        yield return null;
 
     }
     IEnumerator AnimcorBack()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.3f);
         avatarAnimator.SetTrigger("Turn180");  // Idle 상태를 기본으로 유지
+        yield return null;
 
     }
 }

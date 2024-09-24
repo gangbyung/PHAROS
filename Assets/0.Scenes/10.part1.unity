@@ -14119,7 +14119,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &254850777
 Transform:
   m_ObjectHideFlags: 0
@@ -79986,7 +79986,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 782195468616207033, guid: b924dce73e13fbd46b06d493f10d4ad7, type: 3}
-  filePath: C:\Users\USER\Documents\GitHub\PHAROS\Assets\9.CsvFile\Map.csv
+  filePath: C:\Unity_Study\PHAROS\Assets\9.CsvFile\Map.csv
   startX: 5
   startZ: -5
   yPosition: 5
@@ -97786,11 +97786,11 @@ MonoBehaviour:
   aiMoveDistance: 10
   playerMoveDistance: 5
   rayDistance: 10
-  boundaryLimit: 100
+  boundaryLimit: 100000
   wallLayer:
     serializedVersion: 2
     m_Bits: 8
-  moveSpeed: 10
+  moveSpeed: 5
   safeDistance: 2
 --- !u!4 &1818020630
 Transform:
@@ -111627,7 +111627,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400068, guid: 9f271cac34f8a384fbd96577f2846b24, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400068, guid: 9f271cac34f8a384fbd96577f2846b24, type: 3}
       propertyPath: m_LocalRotation.x
@@ -111635,7 +111635,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400068, guid: 9f271cac34f8a384fbd96577f2846b24, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400068, guid: 9f271cac34f8a384fbd96577f2846b24, type: 3}
       propertyPath: m_LocalRotation.z
@@ -111647,7 +111647,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400068, guid: 9f271cac34f8a384fbd96577f2846b24, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400068, guid: 9f271cac34f8a384fbd96577f2846b24, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
