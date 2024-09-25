@@ -16,53 +16,54 @@ public class AI_Rotation : MonoBehaviour
 
     public void SetRotationForDirection(Vector3 direction)
     {
-        if (direction == transform.TransformDirection(Vector3.forward))
+        // 현재 오브젝트의 forward 벡터와 목표 방향 간의 dot product 계산
+        float forwardDot = Vector3.Dot(transform.forward, direction);
+        float rightDot = Vector3.Dot(transform.right, direction);
+
+        if (forwardDot > 0.9f) // 거의 정면
         {
             Debug.Log("앞으로 회전");
             StartCoroutine(Animcor());
-            //avatarAnimator.SetTrigger("Idle");  // Idle 상태를 기본으로 유지
         }
-        else if (direction == transform.TransformDirection(Vector3.back))
+        else if (forwardDot < -0.9f) // 거의 뒤
         {
-            Debug.Log("뒤로 회전");  // 180도 회전 애니메이션
+            Debug.Log("뒤로 회전");
             StartCoroutine(AnimcorBack());
         }
-        else if (direction == transform.TransformDirection(Vector3.left))
-        {
-            Debug.Log("왼쪽으로 회전");
-            StartCoroutine(AnimcorLeft());
-            // 90도 왼쪽 회전
-        }
-        else if (direction == transform.TransformDirection(Vector3.right))
+        else if (rightDot > 0.9f) // 거의 오른쪽
         {
             Debug.Log("오른쪽으로 회전");
             StartCoroutine(AnimcorRight());
-            // 90도 오른쪽 회전
+        }
+        else if (rightDot < -0.9f) // 거의 왼쪽
+        {
+            Debug.Log("왼쪽으로 회전");
+            StartCoroutine(AnimcorLeft());
         }
     }
     IEnumerator Animcor()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
         avatarAnimator.SetTrigger("Idle");  // Idle 상태를 기본으로 유지
         yield return null;
     }
     IEnumerator AnimcorLeft()
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.15f);
         avatarAnimator.SetTrigger("Turn90 Left");  // Idle 상태를 기본으로 유지
         yield return null;
 
     }
     IEnumerator AnimcorRight()
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.15f);
         avatarAnimator.SetTrigger("Turn90 Right");  // Idle 상태를 기본으로 유지
         yield return null;
 
     }
     IEnumerator AnimcorBack()
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.15f);
         avatarAnimator.SetTrigger("Turn180");  // Idle 상태를 기본으로 유지
         yield return null;
 

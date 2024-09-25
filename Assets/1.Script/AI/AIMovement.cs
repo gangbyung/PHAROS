@@ -59,11 +59,6 @@ public class AIMovement : MonoBehaviour
             {
                 avatarAnimator.SetTrigger("Run");
             }
-                else
-                {
-                    avatarAnimator.ResetTrigger("Run");
-                    avatarAnimator.SetTrigger("Idle");
-                }
             // 목표 지점에 도달했을 때
             if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
             {
@@ -81,7 +76,6 @@ public class AIMovement : MonoBehaviour
                         rotationComponent.SetRotationForDirection(bestDirection);
                     }
                 }
-                avatarAnimator.ResetTrigger("Run");
                 avatarAnimator.SetTrigger("Idle"); // 목표 지점에 도달하면 Idle 애니메이션 실행
             }
         }

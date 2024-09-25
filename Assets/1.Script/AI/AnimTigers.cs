@@ -10,7 +10,13 @@ public class AnimTigers : MonoBehaviour
     }
     public void IdelAnim()
     {
-        animator.SetTrigger("Idle2");
+        StartCoroutine(Idle());
     }
+    IEnumerator Idle()
+    {
+        yield return new WaitForSeconds(.1f);
+        animator.SetTrigger("Idle");
 
+        yield return null;
+    }
 }
