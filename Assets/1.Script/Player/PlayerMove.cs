@@ -17,6 +17,8 @@ public class PlayerMove : MonoBehaviour
     public float rayDistance = 6f;
     public LayerMask wallLayer;
 
+    public int KeyIndex = 0;
+
     private Quaternion targetRotation;
     private bool isMovingForward = false;
     private Vector3 startPosition;
@@ -26,6 +28,19 @@ public class PlayerMove : MonoBehaviour
     private float originalMoveSpeed;
     private int bluePotionClickCount = 0;
 
+    private static PlayerMove instanse;
+
+    public static PlayerMove Instance
+    {
+        get
+        {
+            if(instanse == null)
+            {
+                instanse = new PlayerMove();
+            }
+            return instanse;
+        }
+    }
     private void Awake()
     {
         LeftrotateButton.onClick.AddListener(() => StartRotation(-90f));
@@ -36,6 +51,7 @@ public class PlayerMove : MonoBehaviour
         BluePotionActionButton.onClick.AddListener(OnBluePotionActionButtonClick);
     }
 
+    
     private void Start()
     {
         if (targetObject != null)
@@ -88,6 +104,12 @@ public class PlayerMove : MonoBehaviour
         else
         {
             Debug.Log("앞에 벽이 있어 앞으로 이동할 수 없습니다.");
+            if(KeyIndex > 0)
+            {
+                StartMovingForward();
+                --KeyIndex;
+                Debug.Log(KeyIndex);
+            }
         }
     }
 
@@ -235,5 +257,10 @@ public class PlayerMove : MonoBehaviour
 
         transform.position = targetPosition;
         onComplete?.Invoke();
+    }
+
+    public void KeyIndexadd(int _index)
+    {
+        KeyIndex = ++_index;
     }
 }

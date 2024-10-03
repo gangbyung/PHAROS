@@ -4,7 +4,7 @@ public class Item : MonoBehaviour
 {
     public GameObject[] map;
 
-
+    
     void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player" && gameObject.name == "Map1_Item")
@@ -25,6 +25,11 @@ public class Item : MonoBehaviour
         if (other.tag == "Player" && gameObject.name == "Map4_Item")
         {
             map[3].SetActive(true);
+            Destroy(gameObject);
+        }
+        if (other.tag == "Player" && gameObject.CompareTag("Key"))
+        {
+            PlayerMove.Instance.KeyIndexadd(1);
             Destroy(gameObject);
         }
     }
