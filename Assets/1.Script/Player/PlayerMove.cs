@@ -104,7 +104,7 @@ public class PlayerMove : MonoBehaviour
         else
         {
             Debug.Log("앞에 벽이 있어 앞으로 이동할 수 없습니다.");
-            if(KeyIndex > 0)
+            if(KeyIndex > 0 )
             {
                 StartMovingForward();
                 --KeyIndex;
