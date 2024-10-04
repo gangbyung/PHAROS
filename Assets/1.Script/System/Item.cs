@@ -29,7 +29,7 @@ public class Item : MonoBehaviour
         }
         if (other.tag == "Player" && gameObject.CompareTag("Key"))
         {
-            PlayerMove.Instance.KeyIndexadd(1);
+            PlayerMove.Instance.KeyIndexadd();
             Destroy(gameObject);
         }
     }

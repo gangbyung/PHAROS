@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class PlayerMove : MonoBehaviour
     public float maxDistance = 10f;
     public float rayDistance = 6f;
     public LayerMask wallLayer;
+    public LayerMask doorLayer;
 
     public int KeyIndex = 0;
 
@@ -28,19 +30,9 @@ public class PlayerMove : MonoBehaviour
     private float originalMoveSpeed;
     private int bluePotionClickCount = 0;
 
-    private static PlayerMove instanse;
 
-    public static PlayerMove Instance
-    {
-        get
-        {
-            if(instanse == null)
-            {
-                instanse = new PlayerMove();
-            }
-            return instanse;
-        }
-    }
+    public static PlayerMove Instance;
+    
     private void Awake()
     {
         LeftrotateButton.onClick.AddListener(() => StartRotation(-90f));
@@ -54,6 +46,16 @@ public class PlayerMove : MonoBehaviour
     
     private void Start()
     {
+        if(Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+
         if (targetObject != null)
         {
             targetRotation = targetObject.transform.rotation;
@@ -97,25 +99,30 @@ public class PlayerMove : MonoBehaviour
 
     private void OnForwardButtonClick()
     {
-        if (CanMoveForward())
+        if (CanMoveForward() && CanMoveForwardDoor())
         {
             StartMovingForward();
         }
         else
         {
             Debug.Log("앞에 벽이 있어 앞으로 이동할 수 없습니다.");
-            if(KeyIndex > 0 )
+            if(KeyIndex > 0 && !CanMoveForwardDoor())
             {
                 StartMovingForward();
                 --KeyIndex;
+                Debug.Log("열쇠로 문을 열었습니다");
                 Debug.Log(KeyIndex);
             }
         }
     }
 
-    private bool CanMoveForward()
+    private bool CanMoveForward() //앞에 벽이 없다면 트루임
     {
         return !Physics.Raycast(transform.position, transform.forward, rayDistance, wallLayer);
+    }
+    private bool CanMoveForwardDoor() //앞에 문이 없다면 트루임
+    {
+        return !Physics.Raycast(transform.position, transform.forward, rayDistance, doorLayer);
     }
 
     private void StartMovingForward()
@@ -259,8 +266,11 @@ public class PlayerMove : MonoBehaviour
         onComplete?.Invoke();
     }
 
-    public void KeyIndexadd(int _index)
+    public void KeyIndexadd()
     {
-        KeyIndex = ++_index;
+        KeyIndex += 1;
+
+
+        Debug.Log(KeyIndex);
     }
 }
