@@ -7,7 +7,7 @@ public class CameraController : MonoBehaviour
     public Vector3 originalCameraOffset;
     public Vector3 redPotionCameraOffset; //0,20,0
     public Vector3 redPotionCameraRotation; // 빨간 포션 효과 시 카메라의 회전 30,0,0
-    public float bluePotionYOffset = -2f; // 블루 포션 효과 시 카메라의 y 오프셋
+    private float bluePotionYOffset = -1.5f; // 블루 포션 효과 시 카메라의 y 오프셋
 
     private bool hasRedPotionEffect = false;
     private bool hasBluePotionEffect = false;

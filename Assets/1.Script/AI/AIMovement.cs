@@ -32,55 +32,58 @@ public class AIMovement : MonoBehaviour
     }
 
     void Update()
-{
-    if (Vector3.Distance(player.position, lastPlayerPosition) >= playerMoveDistance)
     {
-        if (isIdle)
+        // 레드포션 효과에 따른 playerMoveDistance 조정
+        playerMoveDistance = hasRedPotionEffect ? 38f : 4.8f;
+
+        if (Vector3.Distance(player.position, lastPlayerPosition) >= playerMoveDistance)
         {
-            Vector3 bestDirection = GetBestFleeDirection();
-            if (bestDirection != Vector3.zero)
+            if (isIdle)
             {
-                targetPosition = transform.position + bestDirection * (hasRedPotionEffect ? aiMoveDistance / 4f : aiMoveDistance);
-                lastPlayerPosition = player.position;
-                hasMoved = true;
-                isIdle = false;
-
-                // 이미 이동할 방향을 계산해두고 목표 지점으로 이동 시작
-            }
-        }
-
-        if (hasMoved)
-        {
-            // 목표 지점으로 이동
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
-
-            // 이동 중일 때 Run 애니메이션 실행
-            if (Vector3.Distance(transform.position, targetPosition) >= 0.1f)
-            {
-                avatarAnimator.SetTrigger("Run");
-            }
-            // 목표 지점에 도달했을 때
-            if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
-            {
-                hasMoved = false;
-                isIdle = true;
-
-                // 목표 지점에 도달하자마자 회전 애니메이션 실행
                 Vector3 bestDirection = GetBestFleeDirection();
                 if (bestDirection != Vector3.zero)
                 {
-                    // 회전 방향에 따라 회전 애니메이션 실행
-                    var rotationComponent = GetComponentInChildren<AI_Rotation>();
-                    if (rotationComponent != null)
-                    {
-                        rotationComponent.SetRotationForDirection(bestDirection);
-                    }
+                    targetPosition = transform.position + bestDirection * (hasRedPotionEffect ? aiMoveDistance / 6f : aiMoveDistance);
+                    lastPlayerPosition = player.position;
+                    hasMoved = true;
+                    isIdle = false;
+
+                    // 이미 이동할 방향을 계산해두고 목표 지점으로 이동 시작
                 }
-                avatarAnimator.SetTrigger("Idle"); // 목표 지점에 도달하면 Idle 애니메이션 실행
+            }
+
+            if (hasMoved)
+            {
+                // 목표 지점으로 이동
+                transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+
+                // 이동 중일 때 Run 애니메이션 실행
+                if (Vector3.Distance(transform.position, targetPosition) >= 0.1f)
+                {
+                    avatarAnimator.SetTrigger("Run");
+                }
+                // 목표 지점에 도달했을 때
+                if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
+                {
+                    hasMoved = false;
+                    isIdle = true;
+
+                    // 목표 지점에 도달하자마자 회전 애니메이션 실행
+                    Vector3 bestDirection = GetBestFleeDirection();
+                    if (bestDirection != Vector3.zero)
+                    {
+                        // 회전 방향에 따라 회전 애니메이션 실행
+                        var rotationComponent = GetComponentInChildren<AI_Rotation>();
+                        if (rotationComponent != null)
+                        {
+                            rotationComponent.SetRotationForDirection(bestDirection);
+                        }
+                    }
+                    avatarAnimator.SetTrigger("Idle"); // 목표 지점에 도달하면 Idle 애니메이션 실행
+                }
             }
         }
     }
-}
 
     Vector3 GetBestFleeDirection()
     {
@@ -106,7 +109,7 @@ public class AIMovement : MonoBehaviour
 
         foreach (Vector3 direction in validDirections)
         {
-            Vector3 tempTargetPosition = transform.position + direction * (hasRedPotionEffect ? aiMoveDistance / 4f : aiMoveDistance);
+            Vector3 tempTargetPosition = transform.position + direction * (hasRedPotionEffect ? aiMoveDistance / 6f : aiMoveDistance);
 
             if (Mathf.Abs(tempTargetPosition.x) < boundaryLimit && Mathf.Abs(tempTargetPosition.z) < boundaryLimit)
             {

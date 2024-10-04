@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8291242207692143244}
   - component: {fileID: 4494243138868678792}
   - component: {fileID: 3650148479383454001}
+  - component: {fileID: -5773056525078263738}
   m_Layer: 0
   m_Name: RedItem
   m_TagString: RedPotion
@@ -118,3 +119,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78dd6e56f374d474888a8f255f5acf7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-5773056525078263738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 525873904200834052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fb198f7f547cb44888c4a7c1bafedda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  map: []

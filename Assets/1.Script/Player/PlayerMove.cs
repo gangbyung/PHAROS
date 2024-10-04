@@ -30,7 +30,7 @@ public class PlayerMove : MonoBehaviour
     private float originalMoveSpeed;
     private int bluePotionClickCount = 0;
 
-
+    public AIMovement aiMovement;
     public static PlayerMove Instance;
     
     private void Awake()
@@ -67,6 +67,8 @@ public class PlayerMove : MonoBehaviour
         originalMoveSpeed = moveSpeed;
         RedPotionActionButton.gameObject.SetActive(false);
         BluePotionActionButton.gameObject.SetActive(false);
+
+        aiMovement = FindObjectOfType<AIMovement>();
     }
 
     private void Update()
@@ -182,6 +184,7 @@ public class PlayerMove : MonoBehaviour
         if (!hasRedPotionEffect)
         {
             SoundManager.Instance.PlaySound(0);
+            aiMovement.SetRedPotionEffect(true);
             hasRedPotionEffect = true;
             transform.localScale *= redPotionScaleMultiplier;
             moveSpeed *= redPotionScaleMultiplier;
@@ -197,6 +200,7 @@ public class PlayerMove : MonoBehaviour
             hasRedPotionEffect = false;
             transform.localScale /= redPotionScaleMultiplier;
             moveSpeed = originalMoveSpeed;
+            aiMovement.SetRedPotionEffect(false);
             CameraController.Instance.ResetCamera();
         }
     }

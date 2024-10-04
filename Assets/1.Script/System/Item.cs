@@ -3,8 +3,22 @@ using UnityEngine;
 public class Item : MonoBehaviour
 {
     public GameObject[] map;
+    float Yrotate = 100f;
+    float height = 1f;
+    float speed = 1f;
 
-    
+    private Vector3 startPosition;
+    void Start()
+    {
+        startPosition = transform.position;
+    }
+    void Update()
+    {
+        transform.Rotate(new Vector3(0f, Yrotate * Time.deltaTime , 0f));
+        
+        float newY = Mathf.PingPong(Time.time * speed, height * 2) - height;
+        transform.position = new Vector3(startPosition.x, startPosition.y + newY, startPosition.z);
+    }
     void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player" && gameObject.name == "Map1_Item")
