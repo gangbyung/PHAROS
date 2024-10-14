@@ -7,7 +7,7 @@ public class GameClear : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            NextScene.Gameover_99();
+            SceneTransition.instance.ChangeSceneAfterDialogue();
         }
     }
 }
