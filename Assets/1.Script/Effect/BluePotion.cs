@@ -11,6 +11,7 @@ public class BluePotion : MonoBehaviour
             {
                 playerMove.ApplyBluePotionEffect();
                 Destroy(gameObject); // 아이템 제거
+                ParticleManager.Instance.OnItemCollected(0);
             }
         }
     }

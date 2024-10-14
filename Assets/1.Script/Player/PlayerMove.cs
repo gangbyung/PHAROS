@@ -142,6 +142,7 @@ public class PlayerMove : MonoBehaviour
 
     private void StartRotation(float angle)
     {
+        SetButtonsInteractable(false);
         if (targetObject != null)
         {
             targetRotation = Quaternion.Euler(
@@ -230,6 +231,7 @@ public class PlayerMove : MonoBehaviour
     {
         if (hasRedPotionEffect)
         {
+            SetButtonsInteractable(false);
             RedPotionActionButton.gameObject.SetActive(false);
             StartCoroutine(MoveAndReset(40f, RemoveRedPotionEffect));
         }
@@ -268,6 +270,7 @@ public class PlayerMove : MonoBehaviour
 
         transform.position = targetPosition;
         onComplete?.Invoke();
+        SetButtonsInteractable(true);
     }
 
     public void KeyIndexadd()

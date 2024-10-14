@@ -11,6 +11,7 @@ public class RedPotion : MonoBehaviour
             {
                 playerMove.ApplyRedPotionEffect();
                 Destroy(gameObject); // 아이템 제거
+                ParticleManager.Instance.OnItemCollected(1);
             }
         }
     }
