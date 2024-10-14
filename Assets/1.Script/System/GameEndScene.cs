@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class GameEndScene : MonoBehaviour
 {
-    // Start is called before the first frame update
+    GameObject videos;
     void Start()
     {
-        
+        videos = GameObject.Find("Panle");
+        StartCoroutine(Restart());
     }
-
-    // Update is called once per frame
-    void Update()
+    IEnumerator Restart()
     {
-        
+        yield return new WaitForSeconds(3f);
+        SceneTransition.instance.EndScene();
     }
 }
