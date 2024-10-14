@@ -5,12 +5,14 @@ using UnityEngine;
 public class AIMovement : MonoBehaviour
 {
     public Transform player;
-    public float aiMoveDistance = 10f; // AI의 한 칸 이동 거리
-    public float playerMoveDistance = 5f; // 플레이어의 이동 거리
-    public float rayDistance = 10f; // 레이캐스트 거리
-    public float boundaryLimit = 100f; // 경계 제한
+    public float aiMoveDistance = 10f;
+    public float playerMoveDistance = 5f;
+    public float rayDistance = 10f;
+    public float boundaryLimit = 100f;
     public LayerMask wallLayer;
-    public float moveSpeed = 5f; // AI의 이동 속도
+    public float moveSpeed = 5f;
+    public float playerPredictionFactor = 2f;
+    public int futureSteps = 3;
 
     private Vector3 lastPlayerPosition;
     private Vector3 targetPosition;
@@ -20,20 +22,30 @@ public class AIMovement : MonoBehaviour
     private Animator avatarAnimator;
     public float safeDistance = 2;
 
+    private float runAnimationTime = 0f; // Run 애니메이션 시간 추적
+    public float maxRunTime = 7f; // 최대 7초 동안 Run 애니메이션 허용
+    private Transform tigerTransform; // 하위 Tiger 오브젝트 참조
+
     void Start()
     {
         lastPlayerPosition = player.position;
-        targetPosition = transform.position; // 초기 목표 위치를 현재 위치로 설정
+        targetPosition = transform.position;
         avatarAnimator = GetComponentInChildren<Animator>();
+        tigerTransform = transform.Find("Tiger"); // Tiger 오브젝트 찾기
+
         if (avatarAnimator == null)
         {
             Debug.LogError("Avatar Animator is not assigned and could not be found in children!");
+        }
+
+        if (tigerTransform == null)
+        {
+            Debug.LogError("Tiger object not found!");
         }
     }
 
     void Update()
     {
-        // 레드포션 효과에 따른 playerMoveDistance 조정
         playerMoveDistance = hasRedPotionEffect ? 38f : 4.8f;
 
         if (Vector3.Distance(player.position, lastPlayerPosition) >= playerMoveDistance)
@@ -47,42 +59,86 @@ public class AIMovement : MonoBehaviour
                     lastPlayerPosition = player.position;
                     hasMoved = true;
                     isIdle = false;
-
-                    // 이미 이동할 방향을 계산해두고 목표 지점으로 이동 시작
+                    runAnimationTime = 0f; // 이동 시작 시 애니메이션 시간 초기화
                 }
             }
 
             if (hasMoved)
             {
-                // 목표 지점으로 이동
                 transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
 
-                // 이동 중일 때 Run 애니메이션 실행
+                // 목표 지점에 도달하지 않은 경우
                 if (Vector3.Distance(transform.position, targetPosition) >= 0.1f)
                 {
                     avatarAnimator.SetTrigger("Run");
+                    runAnimationTime += Time.deltaTime; // Run 애니메이션 시간 누적
+
+                    // 7초가 지나면 강제로 Idle 상태로 전환하고 회전 초기화
+                    if (runAnimationTime >= maxRunTime)
+                    {
+                        ForceIdleAndResetRotation();
+                    }
                 }
-                // 목표 지점에 도달했을 때
+
+                // 목표 지점에 도달한 경우
                 if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
                 {
                     hasMoved = false;
                     isIdle = true;
+                    runAnimationTime = 0f; // 이동이 끝났으므로 시간 초기화
+                    avatarAnimator.SetTrigger("Idle");
 
-                    // 목표 지점에 도달하자마자 회전 애니메이션 실행
                     Vector3 bestDirection = GetBestFleeDirection();
                     if (bestDirection != Vector3.zero)
                     {
-                        // 회전 방향에 따라 회전 애니메이션 실행
                         var rotationComponent = GetComponentInChildren<AI_Rotation>();
                         if (rotationComponent != null)
                         {
                             rotationComponent.SetRotationForDirection(bestDirection);
                         }
                     }
-                    avatarAnimator.SetTrigger("Idle"); // 목표 지점에 도달하면 Idle 애니메이션 실행
                 }
             }
         }
+    }
+
+    // Run 애니메이션 시간이 7초 이상되면 Idle 상태로 전환하고 Tiger 오브젝트의 회전을 0, 90, 180, 270으로 변경
+    void ForceIdleAndResetRotation()
+    {
+        hasMoved = false;
+        isIdle = true;
+        avatarAnimator.SetTrigger("Idle");
+        runAnimationTime = 0f; // 시간 초기화
+
+        // Tiger의 현재 Y축 회전 값을 0, 90, 180, 270 중 가장 가까운 값으로 설정
+        if (tigerTransform != null)
+        {
+            Vector3 tigerRotation = tigerTransform.eulerAngles;
+            float closestRotation = GetClosestRotation(tigerRotation.y);
+            tigerTransform.rotation = Quaternion.Euler(tigerRotation.x, closestRotation, tigerRotation.z);
+        }
+
+        Debug.Log("Run 애니메이션이 7초 이상 지속되어 강제로 Idle 상태로 전환되었습니다.");
+    }
+
+    // 현재 Y축 회전 값에 가장 가까운 0, 90, 180, 270 중 하나를 반환하는 함수
+    float GetClosestRotation(float currentYRotation)
+    {
+        float[] possibleRotations = { 0f, 90f, 180f, 270f };
+        float closestRotation = possibleRotations[0];
+        float minDifference = Mathf.Abs(currentYRotation - closestRotation);
+
+        foreach (float rotation in possibleRotations)
+        {
+            float difference = Mathf.Abs(currentYRotation - rotation);
+            if (difference < minDifference)
+            {
+                closestRotation = rotation;
+                minDifference = difference;
+            }
+        }
+
+        return closestRotation;
     }
 
     Vector3 GetBestFleeDirection()
@@ -95,7 +151,7 @@ public class AIMovement : MonoBehaviour
         };
 
         Vector3 bestDirection = Vector3.zero;
-        float maxDistance = float.MinValue;
+        float maxSafeScore = float.MinValue;
 
         List<Vector3> validDirections = new List<Vector3>(possibleDirections);
 
@@ -109,7 +165,7 @@ public class AIMovement : MonoBehaviour
 
         foreach (Vector3 direction in validDirections)
         {
-            Vector3 tempTargetPosition = transform.position + direction * (hasRedPotionEffect ? aiMoveDistance / 6f : aiMoveDistance);
+            Vector3 tempTargetPosition = transform.position + direction * aiMoveDistance;
 
             if (Mathf.Abs(tempTargetPosition.x) < boundaryLimit && Mathf.Abs(tempTargetPosition.z) < boundaryLimit)
             {
@@ -117,10 +173,10 @@ public class AIMovement : MonoBehaviour
                 {
                     if (IsSafeFromWalls(tempTargetPosition))
                     {
-                        float distanceToPlayer = Vector3.Distance(tempTargetPosition, player.position);
-                        if (distanceToPlayer > maxDistance)
+                        float safeScore = CalculateFutureSafety(tempTargetPosition);
+                        if (safeScore > maxSafeScore)
                         {
-                            maxDistance = distanceToPlayer;
+                            maxSafeScore = safeScore;
                             bestDirection = direction;
                         }
                     }
@@ -129,6 +185,23 @@ public class AIMovement : MonoBehaviour
         }
 
         return bestDirection;
+    }
+
+    float CalculateFutureSafety(Vector3 aiPosition)
+    {
+        float totalSafeScore = 0f;
+        Vector3 simulatedPlayerPosition = player.position;
+
+        for (int step = 0; step < futureSteps; step++)
+        {
+            Vector3 predictedPlayerPosition = simulatedPlayerPosition + player.forward * playerPredictionFactor;
+            float distanceToAI = Vector3.Distance(aiPosition, predictedPlayerPosition);
+            totalSafeScore += distanceToAI;
+
+            simulatedPlayerPosition = predictedPlayerPosition;
+        }
+
+        return totalSafeScore;
     }
 
     bool IsSafeFromWalls(Vector3 position)
@@ -142,14 +215,5 @@ public class AIMovement : MonoBehaviour
     public void SetRedPotionEffect(bool isActive)
     {
         hasRedPotionEffect = isActive;
-    }
-
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * rayDistance);
-        Gizmos.DrawRay(transform.position, transform.TransformDirection(Vector3.back) * rayDistance);
-        Gizmos.DrawRay(transform.position, transform.TransformDirection(Vector3.left) * rayDistance);
-        Gizmos.DrawRay(transform.position, transform.TransformDirection(Vector3.right) * rayDistance);
     }
 }
