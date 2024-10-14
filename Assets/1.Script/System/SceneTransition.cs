@@ -26,17 +26,17 @@ public class SceneTransition : MonoBehaviour
         if (DialogueManager.instance.isNpc0)
         {
             // isNpc0이 true일 경우 씬 1로 이동
-            SceneManager.LoadScene("Scene1");
+            SceneManager.LoadScene("40.BadEndPart1");
         }
         else if (DialogueManager.instance.isNpc1)
         {
             // isNpc1이 true일 경우 씬 2로 이동
-            SceneManager.LoadScene("Scene2");
+            SceneManager.LoadScene("42.NomalEndPart");
         }
         else
         {
             // 그 외의 경우 기본 씬으로 이동
-            SceneManager.LoadScene("DefaultScene");
+            SceneManager.LoadScene("43.HappyEndPart");
         }
     }
 }
