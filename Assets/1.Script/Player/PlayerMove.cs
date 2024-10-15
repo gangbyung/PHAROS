@@ -239,6 +239,7 @@ public class PlayerMove : MonoBehaviour
     private void OnBluePotionActionButtonClick()
     {
         bluePotionClickCount++;
+        SetButtonsInteractable(false);
         Debug.Log("블루 포션 클릭 횟수: " + bluePotionClickCount);
 
         if (bluePotionClickCount <= 2)
