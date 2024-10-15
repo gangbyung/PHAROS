@@ -97,7 +97,7 @@ public class PlayerMove : MonoBehaviour
             CameraController.Instance.UpdateCameraRotation(targetObject.transform.rotation);
         }
     }
-
+    public bool a = true;
     private void OnForwardButtonClick()
     {
         if (CanMoveForward() && CanMoveForwardDoor())
@@ -106,13 +106,17 @@ public class PlayerMove : MonoBehaviour
         }
         else
         {
-            Debug.Log("앞에 벽이 있어 앞으로 이동할 수 없습니다.");
             if(KeyIndex > 0 && !CanMoveForwardDoor())
             {
                 StartMovingForward();
                 --KeyIndex;
                 Debug.Log("열쇠로 문을 열었습니다");
                 Debug.Log(KeyIndex);
+            }
+            else
+            {
+                Debug.Log("앞에 벽이 있어 앞으로 이동할 수 없습니다.");
+                HUD.instance.OnWallWarnImage(a); // 벽 못지나감 호출
             }
         }
     }
