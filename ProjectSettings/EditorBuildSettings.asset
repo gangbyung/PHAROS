@@ -15,9 +15,6 @@ EditorBuildSettings:
     path: Assets/0.Scenes/40.BadEndPart1.unity
     guid: cec2846d085746c4082f747fdb2e9923
   - enabled: 1
-    path: Assets/0.Scenes/41.BadEndPart2.unity
-    guid: a09f55cd10486584b8a09965e53f730a
-  - enabled: 1
     path: Assets/0.Scenes/42.NomalEndPart.unity
     guid: d5c6803f003d4ee4ead6c43d666ea86b
   - enabled: 1
