@@ -37,41 +37,31 @@ public class CSVSpawner : MonoBehaviour
 
                     for (int col = 0; col < entries.Length; col++)
                     {
-                        if (string.IsNullOrWhiteSpace(entries[col]))  // 쉼표 체크
+                        // 'O'가 있는 셀에 오브젝트 생성
+                        if (entries[col] == "O")
                         {
-                            // X 값: 아랫줄로 갈수록 -10씩 이동
+                            // X 값: 열에 따라 +10씩 이동
                             float xPos = startX + (col * 10f);
 
-                            // Z 값: 오른쪽으로 갈수록 -10씩 이동
+                            // Z 값: 줄에 따라 -10씩 이동
                             float zPos = startZ + (row * -10f);
 
                             // 오브젝트 생성할 위치
                             Vector3 spawnPosition = new Vector3(xPos, yPosition, zPos);
 
                             // 랜덤 프리팹 선택
-                            GameObject randomPrefab = prefabs[UnityEngine.Random.Range(0, prefabs.Length)];
-
-                            // 프리팹 배열에서 몇 번째인지 확인
-                            int prefabIndex = Array.IndexOf(prefabs, randomPrefab);
-
-                            // 회전값 설정
-                            Quaternion rotation;
-
-                            if (prefabIndex < 2)
+                            if (prefabs.Length > 0)
                             {
-                                // 배열 인덱스 5 이하: 0 ~ 90도 사이의 랜덤 Y축 회전
-                                float randomYRotation = UnityEngine.Random.Range(0f, 90f);
-                                rotation = Quaternion.Euler(0f, randomYRotation, 0f);
+                                GameObject randomPrefab = prefabs[UnityEngine.Random.Range(0, prefabs.Length)];
+
+                                // 오브젝트 생성
+                                Instantiate(randomPrefab, spawnPosition, Quaternion.identity);
+                                Debug.Log($"Spawned {randomPrefab.name} at {spawnPosition}");
                             }
                             else
                             {
-                                // 배열 인덱스 6 이상: Y축 회전 0도 또는 90도 중 하나
-                                float fixedYRotation = UnityEngine.Random.Range(0, 2) == 0 ? 0f : 90f;
-                                rotation = Quaternion.Euler(0f, fixedYRotation, 0f);
+                                Debug.LogWarning("프리팹 배열에 할당된 항목이 없습니다.");
                             }
-
-                            // 오브젝트 생성
-                            Instantiate(randomPrefab, spawnPosition, rotation);
                         }
                     }
                     row++;  // 다음 줄로 이동
