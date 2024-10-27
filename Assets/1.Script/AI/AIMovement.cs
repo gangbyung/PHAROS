@@ -23,7 +23,7 @@ public class AIMovement : MonoBehaviour
     public float safeDistance = 2;
 
     private float runAnimationTime = 0f; // Run 애니메이션 시간 추적
-    public float maxRunTime = 7f; // 최대 7초 동안 Run 애니메이션 허용
+    public float maxRunTime = 1f; // 최대 7초 동안 Run 애니메이션 허용
     private Transform tigerTransform; // 하위 Tiger 오브젝트 참조
 
     void Start()
@@ -67,11 +67,19 @@ public class AIMovement : MonoBehaviour
             {
                 transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
 
-                // 목표 지점에 도달하지 않은 경우
                 if (Vector3.Distance(transform.position, targetPosition) >= 0.1f)
                 {
                     avatarAnimator.SetTrigger("Run");
                     runAnimationTime += Time.deltaTime; // Run 애니메이션 시간 누적
+
+                    // 현재 애니메이션 상태 정보 가져오기
+                    AnimatorStateInfo stateInfo = avatarAnimator.GetCurrentAnimatorStateInfo(0);
+
+                    // Run 애니메이션이 재생 중이고 3번 이상 루프되었는지 확인
+                    if (stateInfo.IsName("Run") && stateInfo.loop && stateInfo.normalizedTime >= 3f)
+                    {
+                        ForceIdleAndResetRotation();
+                    }
 
                     // 7초가 지나면 강제로 Idle 상태로 전환하고 회전 초기화
                     if (runAnimationTime >= maxRunTime)
@@ -80,7 +88,6 @@ public class AIMovement : MonoBehaviour
                     }
                 }
 
-                // 목표 지점에 도달한 경우
                 if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
                 {
                     hasMoved = false;
