@@ -31,23 +31,5 @@ public class SceneTransition : MonoBehaviour
         SceneManager.LoadScene("10.part1");
     }
     // 대화 종료 후 씬 변경
-    public void ChangeSceneAfterDialogue()
-    {
-        // NPC의 bool 값을 확인하여 씬 전환 결정
-        if (DialogueManager.instance.isNpc0)
-        {
-            // isNpc0이 true일 경우 씬 1로 이동
-            SceneManager.LoadScene("40.BadEndPart1");
-        }
-        else if (DialogueManager.instance.isNpc1)
-        {
-            // isNpc1이 true일 경우 씬 2로 이동
-            SceneManager.LoadScene("42.NomalEndPart");
-        }
-        else
-        {
-            // 그 외의 경우 기본 씬으로 이동
-            SceneManager.LoadScene("43.HappyEndPart");
-        }
-    }
+    
 }

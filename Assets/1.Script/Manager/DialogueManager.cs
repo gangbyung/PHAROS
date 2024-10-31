@@ -22,6 +22,7 @@ public class DialogueManager : MonoBehaviour
 
     public Button choiceButton1; // 첫 번째 선택지 버튼
     public Button choiceButton2; // 두 번째 선택지 버튼
+    public Button choiceButton3; // 세 번째 선택지 버튼
 
     // 대화 데이터
     private Dictionary<int, DialogueData> dialogues; // 대화 데이터를 담고 있는 딕셔너리
@@ -31,9 +32,8 @@ public class DialogueManager : MonoBehaviour
     private bool isDialogueActive = false; // 대화 활성화 여부
     private bool waitingForChoice = false; // 선택지 대기 상태 여부
 
-    // 선택 결과
-    public bool isNpc0;
-    public bool isNpc1;
+    // 점수 변수
+    private int score;
 
     void Awake()
     {
@@ -57,55 +57,32 @@ public class DialogueManager : MonoBehaviour
             {
                 0, new DialogueData(
                     "NPC1",
-                    new DialogueLine[]
-                    {
-                        new DialogueLine("안녕!", "npc1", Resources.Load<Sprite>("npc1_image")),
-                        new DialogueLine("너의 선택은 뭐야?", "npc1", Resources.Load<Sprite>("npc1_image"), true, new string[] { "1번", "2번" }, new int[] { 1, 2 })
+                    new DialogueLine[] {
+                        new DialogueLine("안녕! 너의 선택은 뭐야?", "npc1", Resources.Load<Sprite>("npc1_image"), true, new string[] { "1번 선택", "2번 선택", "3번 선택" }, new int[] { 1, 2, 3 })
                     }
                 )
             },
             {
                 1, new DialogueData(
                     "NPC1",
-                    new DialogueLine[]
-                    {
-                        new DialogueLine("1번이구나 좋은 선택이야", "npc1", Resources.Load<Sprite>("npc1_image"))
+                    new DialogueLine[] {
+                        new DialogueLine("1번이구나, 좋은 선택이야!", "npc1", Resources.Load<Sprite>("npc1_image"))
                     }
                 )
             },
             {
                 2, new DialogueData(
                     "NPC1",
-                    new DialogueLine[]
-                    {
-                        new DialogueLine("2번이구나 좋은 선택이야", "npc1", Resources.Load<Sprite>("npc1_image"))
+                    new DialogueLine[] {
+                        new DialogueLine("2번이구나, 괜찮은 선택이야!", "npc1", Resources.Load<Sprite>("npc1_image"))
                     }
                 )
             },
             {
                 3, new DialogueData(
-                    "NPC2",
-                    new DialogueLine[]
-                    {
-                        new DialogueLine("하이요 너의 선택은 뭐야?", "npc2", Resources.Load<Sprite>("npc2_image"), true, new string[] { "1번", "2번" }, new int[] { 4, 5 })
-                    }
-                )
-            },
-            {
-                4, new DialogueData(
-                    "NPC2",
-                    new DialogueLine[]
-                    {
-                        new DialogueLine("1번을 선택했구나", "npc2", Resources.Load<Sprite>("npc2_image"))
-                    }
-                )
-            },
-            {
-                5, new DialogueData(
-                    "NPC2",
-                    new DialogueLine[]
-                    {
-                        new DialogueLine("2번을 선택했구나", "npc2", Resources.Load<Sprite>("npc2_image"))
+                    "NPC1",
+                    new DialogueLine[] {
+                        new DialogueLine("3번을 선택했구나, 멋진 선택이야!", "npc1", Resources.Load<Sprite>("npc1_image"))
                     }
                 )
             }
@@ -116,6 +93,10 @@ public class DialogueManager : MonoBehaviour
         choiceDialoguePanel.SetActive(false);
         choiceButton1.gameObject.SetActive(false);
         choiceButton2.gameObject.SetActive(false);
+        choiceButton3.gameObject.SetActive(false);
+
+        // 점수 초기화
+        score = 0;
     }
 
     void Update()
@@ -179,15 +160,19 @@ public class DialogueManager : MonoBehaviour
                     // 선택지 버튼에 텍스트 설정
                     choiceButton1.gameObject.SetActive(true);
                     choiceButton2.gameObject.SetActive(true);
+                    choiceButton3.gameObject.SetActive(true);
 
                     choiceButton1.GetComponentInChildren<TextMeshProUGUI>().text = line.choices[0];
                     choiceButton2.GetComponentInChildren<TextMeshProUGUI>().text = line.choices[1];
+                    choiceButton3.GetComponentInChildren<TextMeshProUGUI>().text = line.choices[2];
 
                     // 선택지 버튼에 리스너 추가
                     choiceButton1.onClick.RemoveAllListeners();
                     choiceButton2.onClick.RemoveAllListeners();
+                    choiceButton3.onClick.RemoveAllListeners();
                     choiceButton1.onClick.AddListener(() => OnChoiceSelected(0));
                     choiceButton2.onClick.AddListener(() => OnChoiceSelected(1));
+                    choiceButton3.onClick.AddListener(() => OnChoiceSelected(2));
 
                     // 선택지를 기다리는 상태로 변경
                     waitingForChoice = true;
@@ -207,6 +192,7 @@ public class DialogueManager : MonoBehaviour
                     // 선택지 버튼 숨기기
                     choiceButton1.gameObject.SetActive(false);
                     choiceButton2.gameObject.SetActive(false);
+                    choiceButton3.gameObject.SetActive(false);
 
                     // 다음 대사 줄로 진행
                     currentLineIndex++;
@@ -228,6 +214,7 @@ public class DialogueManager : MonoBehaviour
         // 선택지 버튼 숨기기
         choiceButton1.gameObject.SetActive(false);
         choiceButton2.gameObject.SetActive(false);
+        choiceButton3.gameObject.SetActive(false);
 
         // 선택이 완료되었으므로 선택지 대기 상태 해제
         waitingForChoice = false;
@@ -240,27 +227,25 @@ public class DialogueManager : MonoBehaviour
             {
                 int nextDialogueId = line.nextDialogueIds[choiceIndex];
 
-                // 선택지에 따른 값을 저장
-                if (currentDialogueId == 0) // NPC1과의 첫 대화
+                // 선택지에 따른 점수 누적
+                switch (choiceIndex)
                 {
-                    isNpc0 = (choiceIndex == 0) ? false : true;
-                    Debug.Log($"isNpc0: {isNpc0}");
+                    case 0: // 첫 번째 선택지
+                        score += 10; // 점수 추가 (예: 10점)
+                        break;
+                    case 1: // 두 번째 선택지
+                        score += 20; // 점수 추가 (예: 20점)
+                        break;
+                    case 2: // 세 번째 선택지
+                        score += 30; // 점수 추가 (예: 30점)
+                        break;
                 }
-                else if (currentDialogueId == 3) // NPC2와의 첫 대화
-                {
-                    isNpc1 = (choiceIndex == 0) ? false : true;
-                    Debug.Log($"isNpc1: {isNpc1}");
-                }
+                Debug.Log($"현재 점수: {score}");
 
                 // 다음 대화 ID 설정
                 currentDialogueId = nextDialogueId;
                 currentLineIndex = 0; // 다음 대화의 첫 번째 줄로 초기화
                 ShowNextLine(); // 다음 대사를 보여줌
-            }
-            else
-            {
-                // 선택지 없이 종료되는 대화
-                EndDialogue();
             }
         }
     }
@@ -269,42 +254,44 @@ public class DialogueManager : MonoBehaviour
     void EndDialogue()
     {
         isDialogueActive = false; // 대화 비활성화
-        normalDialoguePanel.SetActive(false); // 대화창 숨기기
+        normalDialoguePanel.SetActive(false); // 일반 대화창 숨기기
         choiceDialoguePanel.SetActive(false); // 선택지 대화창 숨기기
+        Debug.Log("대화가 종료되었습니다.");
     }
-}
 
-
-// DialogueData 클래스 (대화 데이터 구조)
-public class DialogueData
-{
-    public string npcName; // NPC 이름
-    public DialogueLine[] lines; // 대사들
-
-    public DialogueData(string npcName, DialogueLine[] lines)
+    // 대화 데이터 구조체
+    [System.Serializable]
+    public struct DialogueData
     {
-        this.npcName = npcName;
-        this.lines = lines;
+        public string npcName; // NPC 이름
+        public DialogueLine[] lines; // 대사 줄 배열
+
+        public DialogueData(string npcName, DialogueLine[] lines)
+        {
+            this.npcName = npcName;
+            this.lines = lines;
+        }
     }
-}
 
-// DialogueLine 클래스 (각 대사의 내용)
-public class DialogueLine
-{
-    public string text; // 대사 텍스트
-    public string speaker; // 말하는 사람
-    public Sprite npcImage; // NPC 이미지
-    public bool hasChoices; // 선택지가 있는지 여부
-    public string[] choices; // 선택지 배열
-    public int[] nextDialogueIds; // 선택지에 따른 다음 대화 ID
-
-    public DialogueLine(string text, string speaker, Sprite npcImage, bool hasChoices = false, string[] choices = null, int[] nextDialogueIds = null)
+    // 대사 줄 구조체
+    [System.Serializable]
+    public struct DialogueLine
     {
-        this.text = text;
-        this.speaker = speaker;
-        this.npcImage = npcImage;
-        this.hasChoices = hasChoices;
-        this.choices = choices;
-        this.nextDialogueIds = nextDialogueIds;
+        public string text; // 대사 텍스트
+        public string npcName; // NPC 이름
+        public Sprite npcImage; // NPC 이미지
+        public bool hasChoices; // 선택지가 있는지 여부
+        public string[] choices; // 선택지 배열
+        public int[] nextDialogueIds; // 다음 대화 ID 배열
+
+        public DialogueLine(string text, string npcName, Sprite npcImage, bool hasChoices = false, string[] choices = null, int[] nextDialogueIds = null)
+        {
+            this.text = text;
+            this.npcName = npcName;
+            this.npcImage = npcImage;
+            this.hasChoices = hasChoices;
+            this.choices = choices;
+            this.nextDialogueIds = nextDialogueIds;
+        }
     }
 }
