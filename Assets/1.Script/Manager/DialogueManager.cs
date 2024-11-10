@@ -20,9 +20,8 @@ public class DialogueManager : MonoBehaviour
     public TextMeshProUGUI dialogueTextChoice; // 선택지 대화창의 대사 텍스트
     public Image npcImageChoice; // 선택지 대화창의 NPC 이미지
 
-    public Button choiceButton1; // 첫 번째 선택지 버튼
-    public Button choiceButton2; // 두 번째 선택지 버튼
-    public Button choiceButton3; // 세 번째 선택지 버튼
+    public GameObject choiceButtonPrefab; // 선택지 버튼 프리팹
+    public Transform choiceContainer; // 선택지 버튼을 넣을 Scroll View의 Content
 
     // 대화 데이터
     private Dictionary<int, DialogueData> dialogues; // 대화 데이터를 담고 있는 딕셔너리
@@ -48,14 +47,14 @@ public class DialogueManager : MonoBehaviour
             DontDestroyOnLoad(gameObject); // 씬 전환 시에도 오브젝트가 삭제되지 않도록 설정
         }
     }
-
     void Start()
     {
         // 대화 데이터 초기화
         dialogues = new Dictionary<int, DialogueData>
         {
             {
-                0, new DialogueData(
+                
+                0, new DialogueData( 
                     "고양이 가면을 쓴 남자아이",
                     new DialogueLine[] {
                         new DialogueLine("헤헤, 아린이 배 타고 한국에 처음 도착했던 거 기억나?", "고양이 가면을 쓴 남자아이", Resources.Load<Sprite>("npc1_image")),
@@ -64,12 +63,11 @@ public class DialogueManager : MonoBehaviour
                         new DialogueLine("아린이도 그때 '여기가 진짜 내 고향인가?' 하고 슬슬 느꼈을 것 같은데, 맞지?", "고양이 가면을 쓴 남자아이", Resources.Load<Sprite>("npc1_image")),
                         new DialogueLine("그런 상황 속에 있었다면 나는...", "아린이의 모습을 한 아름이", Resources.Load<Sprite>("npc1_image"), true,
                             new string[] {
-                                "1번 선택: 과거를 되돌아보며 차분히 대답한다",
-                                "2번 선택: 미소 지으며 긍정적으로 대답한다",
-                                "3번 선택: 조용히 고개를 끄덕인다"
+                                "새로운 환경을 탐험하기로 결심하기",
+                                "낮선 환경에 부모님 곁을 떠나지 않기"
                             },
-                            new int[] { 1, 2, 3 },
-                            new int[] {50,20,30}
+                            new int[] { 1, 2},
+                            new int[] {3,1}
                         )
                     }
                 )
@@ -78,8 +76,7 @@ public class DialogueManager : MonoBehaviour
                 1, new DialogueData(
                     "아름이",
                     new DialogueLine[] {
-                        new DialogueLine("그래... 그때의 기억은 항상 나에게 특별해. 어렸을 때 느꼈던 그 감정들이 지금도 나를 지탱해주는 것 같아.", "아름이", Resources.Load<Sprite>("npc1_image")),
-                        new DialogueLine("고마워. 넌 항상 그때의 나를 기억해주는구나.", "아름이", Resources.Load<Sprite>("npc1_image"))
+                        new DialogueLine("그래 한번 탐험해 보자!", "아름이", Resources.Load<Sprite>("npc1_image"))
                     }
                 )
 
@@ -88,20 +85,57 @@ public class DialogueManager : MonoBehaviour
                 2, new DialogueData(
                     "아름이",
                     new DialogueLine[] {
-                        new DialogueLine("그래... 그때의 기억은 항상 나에게 특별해. 어렸을 때 느꼈던 그 감정들이 지금도 나를 지탱해주는 것 같아.", "아름이", Resources.Load<Sprite>("npc1_image")),
-                        new DialogueLine("고마워. 넌 항상 그때의 나를 기억해주는구나.", "아름이", Resources.Load<Sprite>("npc1_image"))
+                        new DialogueLine("난 부모님과 함께 있을래..", "아름이", Resources.Load<Sprite>("npc1_image")),
+                        
                     }
                 )
             },
             {
                 3, new DialogueData(
-                    "아름이",
+                    "고양이 가면을 쓴 남자아이",
                     new DialogueLine[] {
-                        new DialogueLine("그래... 그때의 기억은 항상 나에게 특별해. 어렸을 때 느꼈던 그 감정들이 지금도 나를 지탱해주는 것 같아.", "아름이", Resources.Load<Sprite>("npc1_image")),
-                        new DialogueLine("고마워. 넌 항상 그때의 나를 기억해주는구나.", "아름이", Resources.Load<Sprite>("npc1_image"))
+                        new DialogueLine("아린이는 일본에서 태어나서 그런지 한국말 배우는 게 좀 힘들었겠지?", "고양이 가면을 쓴 남자아이", Resources.Load<Sprite>("npc1_image")),
+                        new DialogueLine("한국에 오자마자 동네 아이들이랑 놀고 싶었을 텐데, 말이 안 통해서 답답했을 거야", "고양이 가면을 쓴 남자아이", Resources.Load<Sprite>("npc1_image")),
+                        new DialogueLine("부모님이랑 할머니가 집에서 한국말 가르쳐주긴 했지만, 그래도 아린이는 여전히 일본어가 더 편했을 거잖아.", "고양이 가면을 쓴 남자아이", Resources.Load<Sprite>("npc1_image")),
+                        new DialogueLine("그런 상황 속에 있었다면 나는...", "아린이의 모습을 한 아름이", Resources.Load<Sprite>("npc1_image"), true,
+                            new string[] {
+                                "더 열심히 한국어를 배우기로 결심하기",
+                                "일본어와 한국어를 섞어가며 대화하기",
+                                "긴장해서 아무 말도 하지 않기"
+                            },
+                            new int[] {4,5,6},
+                            new int[] {3,2,0}
+                        )
                     }
                 )
-            }
+            },
+            {
+                4, new DialogueData(
+                    "아름이",
+                    new DialogueLine[] {
+                        new DialogueLine("더 열심히 공부해야지!", "아름이", Resources.Load<Sprite>("npc1_image")),
+
+                    }
+                )
+            },
+            {
+                5, new DialogueData(
+                    "아름이",
+                    new DialogueLine[] {
+                        new DialogueLine("아직은 좀 미숙하지만 노력해야지", "아름이", Resources.Load<Sprite>("npc1_image")),
+
+                    }
+                )
+            },
+            {
+                6, new DialogueData(
+                    "아름이",
+                    new DialogueLine[] {
+                        new DialogueLine("긴장해서 아무말도 못할거같아..", "아름이", Resources.Load<Sprite>("npc1_image")),
+
+                    }
+                )
+            },
             // 추가 대화 데이터...
         };
 
@@ -181,10 +215,9 @@ public class DialogueManager : MonoBehaviour
         npcNameTextNormal.text = line.npcName;
         npcImageNormal.sprite = line.npcImage;
 
-        // 선택지 버튼 숨기기
-        HideChoiceButtons();
     }
 
+    // 선택지 대화 UI 업데이트
     // 선택지 대화 UI 업데이트
     private void ShowChoiceDialogue(DialogueLine line)
     {
@@ -195,32 +228,39 @@ public class DialogueManager : MonoBehaviour
         npcNameTextChoice.text = line.npcName;
         npcImageChoice.sprite = line.npcImage;
 
-        // 선택지 버튼 업데이트
-        choiceButton1.gameObject.SetActive(true);
-        choiceButton2.gameObject.SetActive(true);
-        choiceButton3.gameObject.SetActive(true);
+        // 기존 선택지 버튼 제거
+        foreach (Transform child in choiceContainer)
+        {
+            Destroy(child.gameObject);
+        }
 
-        choiceButton1.GetComponentInChildren<TextMeshProUGUI>().text = line.choices[0];
-        choiceButton2.GetComponentInChildren<TextMeshProUGUI>().text = line.choices[1];
-        choiceButton3.GetComponentInChildren<TextMeshProUGUI>().text = line.choices[2];
+        // 선택지 버튼 생성 시 애니메이션 설정
+        // 선택지 버튼 생성 시 애니메이션 실행
+        for (int i = 0; i < line.choices.Length; i++)
+        {
+            GameObject choiceButton = Instantiate(choiceButtonPrefab, choiceContainer);
+            choiceButton.GetComponentInChildren<TextMeshProUGUI>().text = line.choices[i];
 
-        // 선택지 버튼 리스너 추가
-        choiceButton1.onClick.RemoveAllListeners();
-        choiceButton2.onClick.RemoveAllListeners();
-        choiceButton3.onClick.RemoveAllListeners();
-        choiceButton1.onClick.AddListener(() => OnChoiceSelected(0));
-        choiceButton2.onClick.AddListener(() => OnChoiceSelected(1));
-        choiceButton3.onClick.AddListener(() => OnChoiceSelected(2));
+            // 버튼에 있는 Image 컴포넌트를 찾아서 Animator도 찾기
+            Image buttonImage = choiceButton.GetComponentInChildren<Image>();  // Image 컴포넌트 가져오기
+            Animator animator = choiceButton.GetComponentInChildren<Animator>();  // Animator 컴포넌트 가져오기
+
+            // 버튼을 클릭했을 때 처리
+            int choiceIndex = i; // Closure 문제 방지
+            choiceButton.GetComponent<Button>().onClick.AddListener(() => OnChoiceSelected(choiceIndex));
+        }
+
+
 
         waitingForChoice = true; // 선택지를 기다리는 상태로 변경
     }
+
 
     // 선택지가 선택되었을 때 처리
     void OnChoiceSelected(int choiceIndex)
     {
         Debug.Log($"플레이어가 선택을 했습니다: {choiceIndex}");
 
-        HideChoiceButtons();
         waitingForChoice = false; // 선택지 대기 상태 해제
 
         // 현재 대화 ID에서 대화 데이터를 가져오기
@@ -288,13 +328,6 @@ public class DialogueManager : MonoBehaviour
         choiceDialoguePanel.SetActive(false);
     }
 
-    // 선택지 버튼 숨기기
-    private void HideChoiceButtons()
-    {
-        choiceButton1.gameObject.SetActive(false);
-        choiceButton2.gameObject.SetActive(false);
-        choiceButton3.gameObject.SetActive(false);
-    }
 }
 
 // 대화 데이터 클래스
