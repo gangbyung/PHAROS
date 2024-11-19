@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class AIMovement : MonoBehaviour
 {
+    public static AIMovement Instance { get; private set; } // 싱글톤 인스턴스
+
     public Transform player;
     public float aiMoveDistance = 10f;
     public float playerMoveDistance = 5f;
@@ -26,12 +28,29 @@ public class AIMovement : MonoBehaviour
     public float maxRunTime = 1f; // 최대 7초 동안 Run 애니메이션 허용
     private Transform tigerTransform; // 하위 Tiger 오브젝트 참조
 
+    private void Awake()
+    {
+        // 싱글톤 인스턴스를 설정하고, 다른 인스턴스가 있을 경우 파괴
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject); // 씬 전환 시 오브젝트 유지
+        }
+        else
+        {
+            Destroy(gameObject); // 이미 인스턴스가 존재하면 새로운 오브젝트는 파괴
+        }
+    }
+
     void Start()
     {
+        GameObject player1 = GameObject.FindWithTag("Player");
+        player = player1.transform;
         lastPlayerPosition = player.position;
         targetPosition = transform.position;
+
         avatarAnimator = GetComponentInChildren<Animator>();
-        tigerTransform = transform.Find("Tiger"); // Tiger 오브젝트 찾기
+        tigerTransform = transform.Find("Tiger");
 
         if (avatarAnimator == null)
         {
@@ -42,6 +61,18 @@ public class AIMovement : MonoBehaviour
         {
             Debug.LogError("Tiger object not found!");
         }
+
+        // 씬 로드 후 초기화
+        ResetAIState();
+    }
+
+    void ResetAIState()
+    {
+        lastPlayerPosition = player.position;
+        targetPosition = transform.position;
+        isIdle = true;
+        hasMoved = false;
+        runAnimationTime = 0f;
     }
 
     void Update()
@@ -59,7 +90,7 @@ public class AIMovement : MonoBehaviour
                     lastPlayerPosition = player.position;
                     hasMoved = true;
                     isIdle = false;
-                    runAnimationTime = 0f; // 이동 시작 시 애니메이션 시간 초기화
+                    runAnimationTime = 0f;
                 }
             }
 
@@ -71,21 +102,7 @@ public class AIMovement : MonoBehaviour
                 {
                     avatarAnimator.SetTrigger("Run");
                     runAnimationTime += Time.deltaTime; // Run 애니메이션 시간 누적
-
-                    // 현재 애니메이션 상태 정보 가져오기
-                    AnimatorStateInfo stateInfo = avatarAnimator.GetCurrentAnimatorStateInfo(0);
-
-                    // Run 애니메이션이 재생 중이고 3번 이상 루프되었는지 확인
-                    if (stateInfo.IsName("Run") && stateInfo.loop && stateInfo.normalizedTime >= 3f)
-                    {
-                        ForceIdleAndResetRotation();
-                    }
-
-                    // 7초가 지나면 강제로 Idle 상태로 전환하고 회전 초기화
-                    if (runAnimationTime >= maxRunTime)
-                    {
-                        ForceIdleAndResetRotation();
-                    }
+                    HandleRunAnimation();
                 }
 
                 if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
@@ -109,43 +126,19 @@ public class AIMovement : MonoBehaviour
         }
     }
 
-    // Run 애니메이션 시간이 7초 이상되면 Idle 상태로 전환하고 Tiger 오브젝트의 회전을 0, 90, 180, 270으로 변경
-    void ForceIdleAndResetRotation()
+    void HandleRunAnimation()
     {
-        hasMoved = false;
-        isIdle = true;
-        avatarAnimator.SetTrigger("Idle");
-        runAnimationTime = 0f; // 시간 초기화
+        AnimatorStateInfo stateInfo = avatarAnimator.GetCurrentAnimatorStateInfo(0);
 
-        // Tiger의 현재 Y축 회전 값을 0, 90, 180, 270 중 가장 가까운 값으로 설정
-        if (tigerTransform != null)
+        if (stateInfo.IsName("Run") && stateInfo.loop && stateInfo.normalizedTime >= 3f)
         {
-            Vector3 tigerRotation = tigerTransform.eulerAngles;
-            float closestRotation = GetClosestRotation(tigerRotation.y);
-            tigerTransform.rotation = Quaternion.Euler(tigerRotation.x, closestRotation, tigerRotation.z);
+            ForceIdleAndResetRotation();
         }
 
-        Debug.Log("Run 애니메이션이 7초 이상 지속되어 강제로 Idle 상태로 전환되었습니다.");
-    }
-
-    // 현재 Y축 회전 값에 가장 가까운 0, 90, 180, 270 중 하나를 반환하는 함수
-    float GetClosestRotation(float currentYRotation)
-    {
-        float[] possibleRotations = { 0f, 90f, 180f, 270f };
-        float closestRotation = possibleRotations[0];
-        float minDifference = Mathf.Abs(currentYRotation - closestRotation);
-
-        foreach (float rotation in possibleRotations)
+        if (runAnimationTime >= maxRunTime)
         {
-            float difference = Mathf.Abs(currentYRotation - rotation);
-            if (difference < minDifference)
-            {
-                closestRotation = rotation;
-                minDifference = difference;
-            }
+            ForceIdleAndResetRotation();
         }
-
-        return closestRotation;
     }
 
     Vector3 GetBestFleeDirection()
@@ -162,6 +155,7 @@ public class AIMovement : MonoBehaviour
 
         List<Vector3> validDirections = new List<Vector3>(possibleDirections);
 
+        // 벽을 감지하는 Raycast 체크
         foreach (Vector3 direction in possibleDirections)
         {
             if (Physics.Raycast(transform.position, direction, rayDistance, LayerMask.GetMask("Player")))
@@ -217,6 +211,45 @@ public class AIMovement : MonoBehaviour
                  Physics.Raycast(position, transform.TransformDirection(Vector3.back), safeDistance, wallLayer) ||
                  Physics.Raycast(position, transform.TransformDirection(Vector3.left), safeDistance, wallLayer) ||
                  Physics.Raycast(position, transform.TransformDirection(Vector3.right), safeDistance, wallLayer));
+    }
+
+    // ForceIdleAndResetRotation 함수 추가
+    void ForceIdleAndResetRotation()
+    {
+        hasMoved = false;
+        isIdle = true;
+        avatarAnimator.SetTrigger("Idle");
+        runAnimationTime = 0f; // 시간 초기화
+
+        // Tiger의 현재 Y축 회전 값을 0, 90, 180, 270 중 가장 가까운 값으로 설정
+        if (tigerTransform != null)
+        {
+            Vector3 tigerRotation = tigerTransform.eulerAngles;
+            float closestRotation = GetClosestRotation(tigerRotation.y);
+            tigerTransform.rotation = Quaternion.Euler(tigerRotation.x, closestRotation, tigerRotation.z);
+        }
+
+        Debug.Log("Run 애니메이션이 7초 이상 지속되어 강제로 Idle 상태로 전환되었습니다.");
+    }
+
+    // 현재 Y축 회전 값에 가장 가까운 0, 90, 180, 270 중 하나를 반환하는 함수
+    float GetClosestRotation(float currentYRotation)
+    {
+        float[] possibleRotations = { 0f, 90f, 180f, 270f };
+        float closestRotation = possibleRotations[0];
+        float minDifference = Mathf.Abs(currentYRotation - closestRotation);
+
+        foreach (float rotation in possibleRotations)
+        {
+            float difference = Mathf.Abs(currentYRotation - rotation);
+            if (difference < minDifference)
+            {
+                closestRotation = rotation;
+                minDifference = difference;
+            }
+        }
+
+        return closestRotation;
     }
 
     public void SetRedPotionEffect(bool isActive)

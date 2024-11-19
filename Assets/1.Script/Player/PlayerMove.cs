@@ -30,31 +30,32 @@ public class PlayerMove : MonoBehaviour
     private float originalMoveSpeed;
     private int bluePotionClickCount = 0;
 
-    public AIMovement aiMovement;
-    public static PlayerMove Instance;
-    
+
+    public static PlayerMove instance;
     private void Awake()
     {
-        LeftrotateButton.onClick.AddListener(() => StartRotation(-90f));
-        RightrotateButton.onClick.AddListener(() => StartRotation(90f));
-        BackButton.onClick.AddListener(() => StartRotation(180f));
-        ForwardButton.onClick.AddListener(OnForwardButtonClick);
-        RedPotionActionButton.onClick.AddListener(OnRedPotionActionButtonClick);
-        BluePotionActionButton.onClick.AddListener(OnBluePotionActionButtonClick);
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject); // 이미 다른 인스턴스가 있으면 삭제
+        }
+        else
+        {
+            instance = this; // 인스턴스를 현재 객체로 설정
+            DontDestroyOnLoad(gameObject); // 씬 전환 시에도 오브젝트가 삭제되지 않도록 설정
+
+            LeftrotateButton.onClick.AddListener(() => StartRotation(-90f));
+            RightrotateButton.onClick.AddListener(() => StartRotation(90f));
+            BackButton.onClick.AddListener(() => StartRotation(180f));
+            ForwardButton.onClick.AddListener(OnForwardButtonClick);
+            RedPotionActionButton.onClick.AddListener(OnRedPotionActionButtonClick);
+            BluePotionActionButton.onClick.AddListener(OnBluePotionActionButtonClick);
+        }
+        
     }
 
     
     private void Start()
     {
-        if(Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
-
         if (targetObject != null)
         {
             targetRotation = targetObject.transform.rotation;
@@ -67,7 +68,6 @@ public class PlayerMove : MonoBehaviour
         RedPotionActionButton.gameObject.SetActive(false);
         BluePotionActionButton.gameObject.SetActive(false);
 
-        aiMovement = FindObjectOfType<AIMovement>();
     }
 
     private void Update()
@@ -97,7 +97,6 @@ public class PlayerMove : MonoBehaviour
             CameraController.Instance.UpdateCameraRotation(targetObject.transform.rotation);
         }
     }
-    public bool a = true;
     private void OnForwardButtonClick()
     {
         if (CanMoveForward() && CanMoveForwardDoor())
@@ -106,19 +105,79 @@ public class PlayerMove : MonoBehaviour
         }
         else
         {
-            if(KeyIndex > 0 && !CanMoveForwardDoor())
+            if (KeyIndex > 0 && !CanMoveForwardDoor())
             {
-                StartMovingForward();
-                --KeyIndex;
-                Debug.Log("열쇠로 문을 열었습니다");
-                Debug.Log(KeyIndex);
+                OpenClosestDoorWithKey();
             }
             else
             {
                 Debug.Log("앞에 벽이 있어 앞으로 이동할 수 없습니다.");
-                HUD.instance.OnWallWarnImage(a); // 벽 못지나감 호출
+                HUD.instance.OnWallWarnImage(true); // 벽 못 지나감 호출
             }
         }
+    }
+    private void OpenClosestDoorWithKey()
+    {
+        // 모든 문 중 가장 가까운 문 찾기
+        GameObject closestDoor = FindClosestDoor();
+        if (closestDoor != null)
+        {
+            // Animator 가져오기
+            Animator doorAnimator = closestDoor.GetComponent<Animator>();
+            if (doorAnimator != null)
+            {
+                // 애니메이션 실행
+                doorAnimator.SetBool("isOpenDoor", true);
+                Debug.Log($"문 {closestDoor.name} 열림!");
+
+                // 열쇠 소모
+                KeyIndex--;
+                Debug.Log($"남은 열쇠: {KeyIndex}");
+
+                // BoxCollider 제거
+                BoxCollider boxCollider = closestDoor.GetComponent<BoxCollider>();
+                if (boxCollider != null)
+                {
+                    Destroy(boxCollider); // Collider를 완전히 제거
+                    Debug.Log($"문 {closestDoor.name}의 BoxCollider 제거됨.");
+                }
+                else
+                {
+                    Debug.LogWarning($"문 {closestDoor.name}에 BoxCollider가 없습니다.");
+                }
+            }
+            else
+            {
+                Debug.LogWarning($"Animator가 {closestDoor.name}에 없습니다.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("근처에 문이 없습니다.");
+        }
+    }
+
+    private GameObject FindClosestDoor()
+    {
+        // 씬의 모든 문(GameObject)을 탐지
+        GameObject[] allDoors = GameObject.FindGameObjectsWithTag("Door"); // 태그를 Door로 설정해야 함
+        GameObject closestDoor = null;
+        float closestDistance = Mathf.Infinity; // 초기값을 매우 큰 값으로 설정
+
+        foreach (GameObject door in allDoors)
+        {
+            // 거리 계산
+            float distance = Vector3.Distance(transform.position, door.transform.position);
+
+            // 가장 가까운 문을 업데이트
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestDoor = door;
+            }
+        }
+
+        return closestDoor;
     }
 
     private bool CanMoveForward() //앞에 벽이 없다면 트루임
@@ -188,7 +247,7 @@ public class PlayerMove : MonoBehaviour
         if (!hasRedPotionEffect)
         {
             SoundManager.Instance.PlaySound(0);
-            aiMovement.SetRedPotionEffect(true);
+            AIMovement.Instance.SetRedPotionEffect(true);
             hasRedPotionEffect = true;
             transform.localScale *= redPotionScaleMultiplier;
             moveSpeed *= redPotionScaleMultiplier;
@@ -204,7 +263,7 @@ public class PlayerMove : MonoBehaviour
             hasRedPotionEffect = false;
             transform.localScale /= redPotionScaleMultiplier;
             moveSpeed = originalMoveSpeed;
-            aiMovement.SetRedPotionEffect(false);
+            AIMovement.Instance.SetRedPotionEffect(false);
             CameraController.Instance.ResetCamera();
         }
     }
@@ -280,8 +339,6 @@ public class PlayerMove : MonoBehaviour
     public void KeyIndexadd()
     {
         KeyIndex += 1;
-
-
         Debug.Log(KeyIndex);
     }
 }

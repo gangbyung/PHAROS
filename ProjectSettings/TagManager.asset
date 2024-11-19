@@ -8,6 +8,8 @@ TagManager:
   - NPC
   - Key
   - Wall
+  - Door
+  - AI
   layers:
   - Default
   - TransparentFX
@@ -16,7 +18,7 @@ TagManager:
   - Water
   - UI
   - MiniMap
-  - door
+  - Door
   - 
   - 
   - NON

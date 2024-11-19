@@ -43,7 +43,7 @@ public class Item : MonoBehaviour
         }
         if (other.tag == "Player" && gameObject.CompareTag("Key"))
         {
-            PlayerMove.Instance.KeyIndexadd();
+            PlayerMove.instance.KeyIndexadd();
             Destroy(gameObject);
         }
     }

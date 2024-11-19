@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -5,7 +7,7 @@ public class SceneTransition : MonoBehaviour
 {
     // ½Ì±ÛÅæ ÆÐÅÏ
     public static SceneTransition instance;
-
+    public Vector3 spawnPosition;
     void Awake()
     {
         if (instance != null && instance != this)
@@ -29,6 +31,28 @@ public class SceneTransition : MonoBehaviour
     public void Scene10()
     {
         SceneManager.LoadScene("10.part1");
+    }
+    public void NextScene()
+    {
+        int index = SceneManager.GetActiveScene().buildIndex;
+        index++;
+        SceneManager.LoadScene(index);
+        StartCoroutine(PlayerSpawn(index));
+        
+    }
+
+    private IEnumerator PlayerSpawn(int index)
+    {
+        yield return new WaitUntil(() => SceneManager.GetActiveScene().buildIndex == index);
+        yield return new WaitForSeconds(0.1f);
+        spawnPosition = new Vector3(85, 1, -125);
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            player.transform.position = spawnPosition;
+            StopCoroutine(PlayerSpawn(index));
+        }
+
     }
     // ´ëÈ­ Á¾·á ÈÄ ¾À º¯°æ
     

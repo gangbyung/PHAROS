@@ -308,7 +308,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   KeyIndex: 0
-  aiMovement: {fileID: 0}
   a: 1
 --- !u!114 &9207449818837215499
 MonoBehaviour:
