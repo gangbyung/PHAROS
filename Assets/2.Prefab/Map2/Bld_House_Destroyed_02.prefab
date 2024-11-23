@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1525277014734974981}
   - component: {fileID: 8308151126228021712}
   - component: {fileID: 614424521655230037}
-  - component: {fileID: 5371414887806417489}
   m_Layer: 0
   m_Name: Bld_House_Destroyed_02_Plank_LOD0
   m_TagString: Untagged
@@ -84,28 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5371414887806417489
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 828083687366763874}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -8663650657309078113, guid: fc55554f881402b439ccb87d611414ff, type: 3}
 --- !u!1 &1085719535438358441
 GameObject:
   m_ObjectHideFlags: 0
@@ -117,7 +94,6 @@ GameObject:
   - component: {fileID: 9152527658788615100}
   - component: {fileID: 6781691957768478882}
   - component: {fileID: 5461610780141458759}
-  - component: {fileID: 7397608277495547151}
   m_Layer: 0
   m_Name: Bld_House_Destroyed_02_LOD3
   m_TagString: Untagged
@@ -193,28 +169,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &7397608277495547151
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1085719535438358441}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -2592448083340430772, guid: fc55554f881402b439ccb87d611414ff, type: 3}
 --- !u!1 &1636012314273780285
 GameObject:
   m_ObjectHideFlags: 0
@@ -226,7 +180,6 @@ GameObject:
   - component: {fileID: 4190113756946093028}
   - component: {fileID: 4033865186339598907}
   - component: {fileID: 4002134176451471922}
-  - component: {fileID: 2637617725179120154}
   m_Layer: 0
   m_Name: Bld_House_Destroyed_02_LOD1
   m_TagString: Untagged
@@ -302,28 +255,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2637617725179120154
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1636012314273780285}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 6784910415820671701, guid: fc55554f881402b439ccb87d611414ff, type: 3}
 --- !u!1 &1730878004621410867
 GameObject:
   m_ObjectHideFlags: 0
@@ -334,7 +265,6 @@ GameObject:
   m_Component:
   - component: {fileID: 346254661547456302}
   - component: {fileID: 391476932234885686}
-  - component: {fileID: 7927265110212027895}
   m_Layer: 0
   m_Name: Bld_House_Destroyed_02
   m_TagString: Untagged
@@ -396,27 +326,6 @@ LODGroup:
     - renderer: {fileID: 5461610780141458759}
     - renderer: {fileID: 4794839930136876692}
   m_Enabled: 1
---- !u!65 &7927265110212027895
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1730878004621410867}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 10, y: 10, z: 10}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1959694634993847579
 GameObject:
   m_ObjectHideFlags: 0
@@ -428,7 +337,6 @@ GameObject:
   - component: {fileID: 2777506218663540698}
   - component: {fileID: 3352698503124523416}
   - component: {fileID: 1022680163324539403}
-  - component: {fileID: 4193081227306462126}
   m_Layer: 0
   m_Name: Bld_House_Destroyed_02_Plank_LOD2
   m_TagString: Untagged
@@ -501,28 +409,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &4193081227306462126
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1959694634993847579}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 1374406890401141709, guid: fc55554f881402b439ccb87d611414ff, type: 3}
 --- !u!1 &2753342433152820642
 GameObject:
   m_ObjectHideFlags: 0
@@ -534,7 +420,6 @@ GameObject:
   - component: {fileID: 2681904643182851148}
   - component: {fileID: 4822788248060803542}
   - component: {fileID: 7321264604536079285}
-  - component: {fileID: 1234434304541836686}
   m_Layer: 0
   m_Name: Bld_House_Destroyed_02_LOD2
   m_TagString: Untagged
@@ -610,28 +495,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &1234434304541836686
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2753342433152820642}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -5250833712171683646, guid: fc55554f881402b439ccb87d611414ff, type: 3}
 --- !u!1 &2922849280624152343
 GameObject:
   m_ObjectHideFlags: 0
@@ -643,7 +506,6 @@ GameObject:
   - component: {fileID: 7328507478509573117}
   - component: {fileID: 1602411384401718797}
   - component: {fileID: 4794839930136876692}
-  - component: {fileID: 6314630875332485548}
   m_Layer: 0
   m_Name: Bld_House_Destroyed_02_Plank_LOD3
   m_TagString: Untagged
@@ -716,28 +578,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &6314630875332485548
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2922849280624152343}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 684193142320958211, guid: fc55554f881402b439ccb87d611414ff, type: 3}
 --- !u!1 &5657475867739574539
 GameObject:
   m_ObjectHideFlags: 0
@@ -749,7 +589,6 @@ GameObject:
   - component: {fileID: 5514435225695057294}
   - component: {fileID: 2990451380133647773}
   - component: {fileID: 5994202146879863030}
-  - component: {fileID: 2611256018500124452}
   m_Layer: 0
   m_Name: Bld_House_Destroyed_02_Plank_LOD1
   m_TagString: Untagged
@@ -822,28 +661,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2611256018500124452
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5657475867739574539}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 5739293345736250844, guid: fc55554f881402b439ccb87d611414ff, type: 3}
 --- !u!1 &8495306543699603402
 GameObject:
   m_ObjectHideFlags: 0
@@ -855,7 +672,6 @@ GameObject:
   - component: {fileID: 8025395301512038400}
   - component: {fileID: 9092538297559774488}
   - component: {fileID: 6094690715922891952}
-  - component: {fileID: 5019182594007178720}
   m_Layer: 0
   m_Name: Bld_House_Destroyed_02_LOD0
   m_TagString: Untagged
@@ -931,25 +747,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5019182594007178720
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8495306543699603402}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -6183376274614247411, guid: fc55554f881402b439ccb87d611414ff, type: 3}

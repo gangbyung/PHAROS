@@ -44,7 +44,6 @@ public class DialogueManager : MonoBehaviour
         else
         {
             instance = this; // 인스턴스를 현재 객체로 설정
-            DontDestroyOnLoad(gameObject); // 씬 전환 시에도 오브젝트가 삭제되지 않도록 설정
         }
     }
     void Start()

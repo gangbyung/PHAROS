@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3696960031648048989}
   - component: {fileID: 8436405552350515244}
-  - component: {fileID: 3785382155883414134}
+  - component: {fileID: 3795192502059139246}
   m_Layer: 0
   m_Name: Bld_2
   m_TagString: Untagged
@@ -68,7 +68,7 @@ LODGroup:
     renderers:
     - renderer: {fileID: 8133146093843433671}
   m_Enabled: 1
---- !u!65 &3785382155883414134
+--- !u!65 &3795192502059139246
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -83,11 +83,11 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3, y: 5, z: 3.09}
+  m_Size: {x: 5, y: 5, z: 5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4624881139010752369
 GameObject:
@@ -100,7 +100,6 @@ GameObject:
   - component: {fileID: 3380574242537578579}
   - component: {fileID: 1263146832194118143}
   - component: {fileID: 3309712256715354328}
-  - component: {fileID: 229392219357380196}
   m_Layer: 0
   m_Name: Bld_Destroyed_House_Wood_02_LOD2
   m_TagString: Untagged
@@ -173,28 +172,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &229392219357380196
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4624881139010752369}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -4144737276985442682, guid: be199cf8db11d354da0a0df93be70f8f, type: 3}
 --- !u!1 &5985408210798887668
 GameObject:
   m_ObjectHideFlags: 0
@@ -206,7 +183,6 @@ GameObject:
   - component: {fileID: 3463231682055261538}
   - component: {fileID: 3561905632784563155}
   - component: {fileID: 8133146093843433671}
-  - component: {fileID: 4931737458215169355}
   m_Layer: 0
   m_Name: Bld_Destroyed_House_Wood_02_LOD3
   m_TagString: Untagged
@@ -279,28 +255,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &4931737458215169355
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5985408210798887668}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -3789946854575274583, guid: be199cf8db11d354da0a0df93be70f8f, type: 3}
 --- !u!1 &6271993814832659689
 GameObject:
   m_ObjectHideFlags: 0
@@ -312,7 +266,6 @@ GameObject:
   - component: {fileID: 4745986348464205554}
   - component: {fileID: 8980918831586813202}
   - component: {fileID: 3686875526388932903}
-  - component: {fileID: 6174082683117762631}
   m_Layer: 0
   m_Name: Bld_Destroyed_House_Wood_02_LOD1
   m_TagString: Untagged
@@ -385,28 +338,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &6174082683117762631
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6271993814832659689}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -6475689663476054723, guid: be199cf8db11d354da0a0df93be70f8f, type: 3}
 --- !u!1 &8165291709155065614
 GameObject:
   m_ObjectHideFlags: 0
@@ -418,7 +349,6 @@ GameObject:
   - component: {fileID: 9092890225987670243}
   - component: {fileID: 4773458969251623584}
   - component: {fileID: 7980804971295978496}
-  - component: {fileID: 2071511498098624878}
   m_Layer: 0
   m_Name: Bld_Destroyed_House_Wood_02_LOD0
   m_TagString: Untagged
@@ -491,25 +421,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2071511498098624878
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8165291709155065614}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 951176384949084691, guid: be199cf8db11d354da0a0df93be70f8f, type: 3}

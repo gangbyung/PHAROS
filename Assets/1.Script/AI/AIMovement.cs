@@ -10,7 +10,7 @@ public class AIMovement : MonoBehaviour
     public float aiMoveDistance = 10f;
     public float playerMoveDistance = 5f;
     public float rayDistance = 10f;
-    public float boundaryLimit = 100f;
+    public double boundaryLimit = 100000000f;
     public LayerMask wallLayer;
     public float moveSpeed = 5f;
     public float playerPredictionFactor = 2f;
@@ -34,7 +34,6 @@ public class AIMovement : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // 씬 전환 시 오브젝트 유지
         }
         else
         {
@@ -61,9 +60,10 @@ public class AIMovement : MonoBehaviour
         {
             Debug.LogError("Tiger object not found!");
         }
+        
 
         // 씬 로드 후 초기화
-        ResetAIState();
+        //ResetAIState();
     }
 
     void ResetAIState()
@@ -79,6 +79,9 @@ public class AIMovement : MonoBehaviour
     {
         playerMoveDistance = hasRedPotionEffect ? 38f : 4.8f;
 
+        // 플레이어와의 거리 체크 레이캐스트 시각화
+        Debug.DrawRay(transform.position, (player.position - transform.position).normalized * rayDistance, Color.red);
+
         if (Vector3.Distance(player.position, lastPlayerPosition) >= playerMoveDistance)
         {
             if (isIdle)
@@ -91,6 +94,9 @@ public class AIMovement : MonoBehaviour
                     hasMoved = true;
                     isIdle = false;
                     runAnimationTime = 0f;
+
+                    // 선택된 방향을 시각화
+                    Debug.DrawRay(transform.position, bestDirection * aiMoveDistance, Color.green, 1f);
                 }
             }
 
@@ -126,6 +132,7 @@ public class AIMovement : MonoBehaviour
         }
     }
 
+
     void HandleRunAnimation()
     {
         AnimatorStateInfo stateInfo = avatarAnimator.GetCurrentAnimatorStateInfo(0);
@@ -144,34 +151,40 @@ public class AIMovement : MonoBehaviour
     Vector3 GetBestFleeDirection()
     {
         Vector3[] possibleDirections = {
-            transform.TransformDirection(Vector3.forward),
-            transform.TransformDirection(Vector3.back),
-            transform.TransformDirection(Vector3.left),
-            transform.TransformDirection(Vector3.right)
-        };
+        transform.TransformDirection(Vector3.forward),
+        transform.TransformDirection(Vector3.back),
+        transform.TransformDirection(Vector3.left),
+        transform.TransformDirection(Vector3.right)
+    };
 
         Vector3 bestDirection = Vector3.zero;
         float maxSafeScore = float.MinValue;
 
         List<Vector3> validDirections = new List<Vector3>(possibleDirections);
 
+        // Raycast 시작 위치를 높임
+        Vector3 adjustedPosition = new Vector3(transform.position.x, 2f, transform.position.z);
+
         // 벽을 감지하는 Raycast 체크
         foreach (Vector3 direction in possibleDirections)
         {
-            if (Physics.Raycast(transform.position, direction, rayDistance, LayerMask.GetMask("Player")))
+            if (Physics.Raycast(adjustedPosition, direction, rayDistance, LayerMask.GetMask("Player")))
             {
                 validDirections.Remove(direction);
+                Debug.DrawRay(adjustedPosition, direction * rayDistance, Color.red, 0.5f);
             }
         }
 
         foreach (Vector3 direction in validDirections)
         {
-            Vector3 tempTargetPosition = transform.position + direction * aiMoveDistance;
+            Vector3 tempTargetPosition = adjustedPosition + direction * aiMoveDistance;
 
             if (Mathf.Abs(tempTargetPosition.x) < boundaryLimit && Mathf.Abs(tempTargetPosition.z) < boundaryLimit)
             {
-                if (!Physics.Raycast(transform.position, direction, rayDistance, wallLayer))
+                if (!Physics.Raycast(adjustedPosition, direction, rayDistance, wallLayer))
                 {
+                    Debug.DrawRay(adjustedPosition, direction * rayDistance, Color.cyan, 0.5f);
+
                     if (IsSafeFromWalls(tempTargetPosition))
                     {
                         float safeScore = CalculateFutureSafety(tempTargetPosition);
@@ -207,10 +220,22 @@ public class AIMovement : MonoBehaviour
 
     bool IsSafeFromWalls(Vector3 position)
     {
-        return !(Physics.Raycast(position, transform.TransformDirection(Vector3.forward), safeDistance, wallLayer) ||
-                 Physics.Raycast(position, transform.TransformDirection(Vector3.back), safeDistance, wallLayer) ||
-                 Physics.Raycast(position, transform.TransformDirection(Vector3.left), safeDistance, wallLayer) ||
-                 Physics.Raycast(position, transform.TransformDirection(Vector3.right), safeDistance, wallLayer));
+        float rayLength = safeDistance;
+
+        // 네 방향의 안전 여부를 각각 확인
+        bool isForwardSafe = !Physics.Raycast(position, transform.TransformDirection(Vector3.forward), rayLength, wallLayer);
+        bool isBackSafe = !Physics.Raycast(position, transform.TransformDirection(Vector3.back), rayLength, wallLayer);
+        bool isLeftSafe = !Physics.Raycast(position, transform.TransformDirection(Vector3.left), rayLength, wallLayer);
+        bool isRightSafe = !Physics.Raycast(position, transform.TransformDirection(Vector3.right), rayLength, wallLayer);
+
+        // 디버깅 시각화
+        Debug.DrawRay(position, transform.TransformDirection(Vector3.forward) * rayLength, isForwardSafe ? Color.green : Color.red, 0.2f);
+        Debug.DrawRay(position, transform.TransformDirection(Vector3.back) * rayLength, isBackSafe ? Color.green : Color.red, 0.2f);
+        Debug.DrawRay(position, transform.TransformDirection(Vector3.left) * rayLength, isLeftSafe ? Color.green : Color.red, 0.2f);
+        Debug.DrawRay(position, transform.TransformDirection(Vector3.right) * rayLength, isRightSafe ? Color.green : Color.red, 0.2f);
+
+        // 네 방향 모두 안전해야 안전한 지점으로 간주
+        return isForwardSafe && isBackSafe && isLeftSafe && isRightSafe;
     }
 
     // ForceIdleAndResetRotation 함수 추가

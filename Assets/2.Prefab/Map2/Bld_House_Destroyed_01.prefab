@@ -96,7 +96,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5334202139320228968}
   - component: {fileID: 890863061991238425}
-  - component: {fileID: 3647372683867184337}
   m_Layer: 0
   m_Name: Bld_House_Destroyed_01
   m_TagString: Untagged
@@ -158,27 +157,6 @@ LODGroup:
     - renderer: {fileID: 4953037137276547245}
     - renderer: {fileID: 5533970022054670847}
   m_Enabled: 1
---- !u!65 &3647372683867184337
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4705474608864675538}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 10, y: 10, z: 10}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6282184823146037097
 GameObject:
   m_ObjectHideFlags: 0

@@ -107,8 +107,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bld_House_Destroyed_02
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 7927265110212027895, guid: 47151a2a00ee3b54c9dbfad7d5af3c0c, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -170,8 +169,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 3647372683867184337, guid: ced70b16c4321704b9d2b45f996a15a1, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
