@@ -383,7 +383,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &655079787736905417
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1013,17 +1013,17 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uB10C \uBABB\uC9C0\uB098\uAC04\uB2E4."
+  m_text: "\uC5EC\uAE34 \uC9C0\uB098\uAC08 \uC218 \uC5C6\uC5B4."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b244cb5d070072944b78cead7d285d11, type: 2}
-  m_sharedMaterial: {fileID: 8686554161195173444, guid: b244cb5d070072944b78cead7d285d11, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 1e4637cb6cde4984982ecd5d3297758b, type: 2}
+  m_sharedMaterial: {fileID: 8686554161195173444, guid: 1e4637cb6cde4984982ecd5d3297758b, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190335
-  m_fontColor: {r: 1, g: 0, b: 0, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2381,7 +2381,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 715.5}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &8744066709320690892
 MonoBehaviour:
@@ -2436,7 +2436,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5615731597233349526
 RectTransform:
   m_ObjectHideFlags: 0

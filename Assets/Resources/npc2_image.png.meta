@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: bbb8ab9cc3eef524c8e223a6bd09d5eb
+guid: d771f6241d2fa9541ad0532a289332f6
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -94,6 +94,19 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -110,22 +123,22 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: npc2_image_0
+      name: Npc2_image
       rect:
         serializedVersion: 2
-        x: 27
-        y: 95
-        width: 630
-        height: 570
+        x: 0
+        y: 0
+        width: 1245
+        height: 1708
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 08ed86c7101f14d45816d9e30cf0ecaf
-      internalID: 1468407080
+      spriteID: 73c45942bc3121b48aa044868c3e3bc1
+      internalID: -364665920
       vertices: []
       indices: 
       edges: []
@@ -133,7 +146,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 35bcfab30d8fb514c847f1d94e1f2ea3
     internalID: 0
     vertices: []
     indices: 
@@ -141,7 +154,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      npc2_image_0: 1468407080
+      Npc2_image: -364665920
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
