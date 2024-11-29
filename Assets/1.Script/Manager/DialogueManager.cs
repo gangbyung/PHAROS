@@ -569,8 +569,6 @@ public class DialogueManager : MonoBehaviour
         isDialogueActive = false; // 대화 비활성화
         HideAllDialoguePanels(); // 모든 대화창 숨김
         Debug.Log("대화가 종료되었습니다.");
-        nPCDialogueTrigger = FindObjectOfType<NPCDialogueTrigger>();
-        nPCDialogueTrigger.DeleteMyParent();
     }
 
     // 대화 UI 초기화
