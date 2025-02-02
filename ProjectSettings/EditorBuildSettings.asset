@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/0.Scenes/0.GameTitle.unity
     guid: 12f64bfc7889a3a42a9b2eed42902a17
   - enabled: 1
+    path: Assets/0.Scenes/1.Start.unity
+    guid: 45a764a66c20bc441a2864da11517e29
+  - enabled: 1
     path: Assets/0.Scenes/10.part1.unity
     guid: b7721d371e19be847982acb62708060f
   - enabled: 1
@@ -27,6 +30,21 @@ EditorBuildSettings:
     path: Assets/0.Scenes/43.HappyEndPart.unity
     guid: 18095d7a51db17e4c9d9b4221da71b6e
   - enabled: 1
+    path: Assets/0.Scenes/50.BadEndPart.unity
+    guid: 7e0ffb19b5c4ffc4aad147b4fc623935
+  - enabled: 1
+    path: Assets/0.Scenes/51.HappyEndPart.unity
+    guid: 88ff7586b8c7efd408704bce7d809e75
+  - enabled: 1
+    path: Assets/0.Scenes/60.BadEndPart.unity
+    guid: c161ec89b8789af46b51dc05719287b9
+  - enabled: 1
+    path: Assets/0.Scenes/61.HappyEndPart.unity
+    guid: bcc26993fa8e2e14bba17989297945a1
+  - enabled: 1
     path: Assets/0.Scenes/99.GameOver.unity
+    guid: c4fd52bf7ee480f47b0ad5386a3a75b3
+  - enabled: 1
+    path: Assets/0.Scenes/100.GameOver.unity
     guid: 405b851c1bb53dc4085675bd5ee2fc2e
   m_configObjects: {}

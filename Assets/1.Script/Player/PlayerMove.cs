@@ -125,6 +125,7 @@ public class PlayerMove : MonoBehaviour
             Animator doorAnimator = closestDoor.GetComponent<Animator>();
             if (doorAnimator != null)
             {
+                SoundManager.Instance.PlaySound(2);
                 // 애니메이션 실행
                 doorAnimator.SetBool("isOpenDoor", true);
                 Debug.Log($"문 {closestDoor.name} 열림!");
@@ -311,6 +312,7 @@ public class PlayerMove : MonoBehaviour
                 if (bluePotionClickCount == 2)
                 {
                     RemoveBluePotionEffect(); // 이동이 끝난 후 두 번째 클릭이 완료되면 블루 포션 효과 제거
+                    bluePotionClickCount = 0;
                 }
             }));
         }

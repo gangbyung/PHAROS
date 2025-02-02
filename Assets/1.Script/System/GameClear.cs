@@ -9,8 +9,7 @@ public class GameClear : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            SceneTransition.instance.NextScene();
-            
+            SceneTransition.instance.Stage1();
         }
     }
     

@@ -12,7 +12,7 @@ public class GameEndScene : MonoBehaviour
     }
     IEnumerator Restart()
     {
-        yield return new WaitForSeconds(3f);
-        SceneTransition.instance.EndScene();
+        yield return new WaitForSeconds(10f);
+        SceneTransition.instance.Scene11();
     }
 }

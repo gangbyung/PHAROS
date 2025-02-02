@@ -1,4 +1,4 @@
-Library: C:\Unity_Study\PHAROS\Temp\BurstOutput\tempburstlibs\armeabi-v7a\lib_burst_generated
+Library: D:\Unity\project\Assetcollect\PHAROS\Temp\BurstOutput\tempburstlibs\armeabi-v7a\lib_burst_generated
 --platform=Android
 --backend=burst-llvm-16
 --target=ARMV7A_NEON32
@@ -25,10 +25,10 @@ Library: C:\Unity_Study\PHAROS\Temp\BurstOutput\tempburstlibs\armeabi-v7a\lib_bu
 --assembly-defines=Unity.TextMeshPro;
 --assembly-defines=UnityEngine;
 --generate-link-xml=Temp\burst.link.xml
---temp-folder=C:\Unity_Study\PHAROS\Temp\Burst
---key-folder=C:/Program Files/Unity/Hub/Editor/2022.3.21f1/Editor/Data/PlaybackEngines/AndroidPlayer
---decode-folder=C:\Unity_Study\PHAROS\Library\Burst
---output=C:\Unity_Study\PHAROS\Temp\BurstOutput\tempburstlibs\armeabi-v7a\lib_burst_generated
+--temp-folder=D:\Unity\project\Assetcollect\PHAROS\Temp\Burst
+--key-folder=D:/Unity/2022.3.21f1/Editor/Data/PlaybackEngines/AndroidPlayer
+--decode-folder=D:\Unity\project\Assetcollect\PHAROS\Library\Burst
+--output=D:\Unity\project\Assetcollect\PHAROS\Temp\BurstOutput\tempburstlibs\armeabi-v7a\lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/
 
 --method=Unity.Burst.BurstCompiler+BurstCompilerHelper, Unity.Burst, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null::IsBurstEnabled()--8c2be93e18276203cbd918daa2748a10

@@ -24,6 +24,10 @@ public class SceneTransition : MonoBehaviour
     {
         SceneManager.LoadScene("99.GameOver");
     }
+    public void Endd()
+    {
+        SceneManager.LoadScene("100.GameOver");
+    }
     public void GameStart()
     {
         SceneManager.LoadScene("0.GameTitle");
@@ -32,13 +36,88 @@ public class SceneTransition : MonoBehaviour
     {
         SceneManager.LoadScene("10.part1");
     }
-    public void NextScene()
+    public void Scene11()
     {
-        int index = SceneManager.GetActiveScene().buildIndex;
-        index++;
-        SceneManager.LoadScene(index);
-        StartCoroutine(PlayerSpawn(index));
-        
+        SceneManager.LoadScene("11.part2");
+    }
+    public void Scene12()
+    {
+        SceneManager.LoadScene("12.part3");
+    }
+    //스테이지 1 엔딩들
+    public void Stage1Bad()
+    {
+        SceneManager.LoadScene("40.BadEndPart1");
+    }
+    public void Stage1Nomal()
+    {
+        SceneManager.LoadScene("42.NomalEndPart");
+    }
+    public void Stage1Happy()
+    {
+        SceneManager.LoadScene("43.HappyEndPart");
+    }
+    public void Stage2Bad()
+    {
+        SceneManager.LoadScene("50.BadEndPart");
+    }
+    public void Stage2Happy()
+    {
+        SceneManager.LoadScene("51.HappyEndPart");
+    }
+    public void Stage3Bad()
+    {
+        SceneManager.LoadScene("60.BadEndPart");
+    }
+    public void Stage3Happy()
+    {
+        SceneManager.LoadScene("61.HappyEndPart");
+    }
+    public void Stage1()
+    {
+        int sceneScore = DialogueManager.instance.score;
+        if (sceneScore >= 11)
+        {
+            if(sceneScore <= 17)
+            {
+                //노말엔딩
+                Stage1Nomal();
+            }
+            else
+            {
+                //해피엔딩
+                Stage1Happy();
+            }
+        }
+        if (sceneScore <= 10)
+        {
+            //배드엔딩
+            Stage1Bad();
+        }
+    }
+    public void Stage2()
+    {
+        int sceneScore = DialogueManager.instance.score;
+        if (sceneScore > 11)
+        {
+            Stage2Happy();
+        }
+        else
+        {
+            Stage2Bad();
+        }
+    }
+    public void Stage3()
+    {
+        int sceneScore = DialogueManager.instance.score;
+        if (sceneScore > 11)
+        {
+            Stage3Happy();
+        }
+        else
+        {
+            Stage3Bad();
+        }
     }
 
     private IEnumerator PlayerSpawn(int index)

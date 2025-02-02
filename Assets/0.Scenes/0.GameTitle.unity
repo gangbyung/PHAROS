@@ -368,7 +368,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1910094452}
         m_TargetAssemblyTypeName: ClickButton, Assembly-CSharp
-        m_MethodName: Scene10
+        m_MethodName: Scene1
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

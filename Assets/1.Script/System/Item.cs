@@ -44,6 +44,7 @@ public class Item : MonoBehaviour
         if (other.tag == "Player" && gameObject.CompareTag("Key"))
         {
             PlayerMove.instance.KeyIndexadd();
+            SoundManager.Instance.PlaySound(3);
             Destroy(gameObject);
         }
     }

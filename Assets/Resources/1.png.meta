@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: de077c35f9bd5db45813976303fc1016
+guid: df10aae5ec4a500469adadad56fea7a7
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -94,6 +94,19 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -110,22 +123,22 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: alem_1_0
+      name: 1
       rect:
         serializedVersion: 2
-        x: 299
-        y: 291
-        width: 390
-        height: 709
+        x: 0
+        y: 748
+        width: 178
+        height: 276
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2f85073ecbb80784db0fa14e2ce32c40
-      internalID: -1784371803
+      spriteID: 3acdc8defa61ff1498921b0c7818627e
+      internalID: 149733578
       vertices: []
       indices: 
       edges: []
@@ -133,7 +146,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 6816c02d3a83f654f82790373790174e
     internalID: 0
     vertices: []
     indices: 
@@ -141,7 +154,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      alem_1_0: -1784371803
+      1: 149733578
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

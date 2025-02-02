@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b6528057dfc421b4e8f1b89da6d46717
+guid: 5bca1f10ba14a8a48831095f1dfec555
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -94,6 +94,19 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -110,13 +123,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: alem_2_0
+      name: KakaoTalk_20241201_171513739_01_0
       rect:
         serializedVersion: 2
-        x: 299
-        y: 291
-        width: 390
-        height: 709
+        x: 0
+        y: 0
+        width: 1721
+        height: 880
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,8 +137,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8fd89593672400c42bc14be79acf6d20
-      internalID: -961038595
+      spriteID: 0ace6186b9832b144a6e790beb2c0c91
+      internalID: -1953223007
       vertices: []
       indices: 
       edges: []
@@ -141,7 +154,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      alem_2_0: -961038595
+      KakaoTalk_20241201_171513739_01_0: -1953223007
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
